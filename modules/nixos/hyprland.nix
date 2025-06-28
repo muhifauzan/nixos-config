@@ -10,6 +10,8 @@
   # For controlling backlight via Light
   programs.light.enable = true;
 
+  security.polkit.enable = true;
+
   services.displayManager = {
     defaultSession = "hyprland-uwsm";
 
@@ -22,7 +24,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    kitty
   ];
 
   # Needed for some Wayland apps to behave properly with multi-monitor setups

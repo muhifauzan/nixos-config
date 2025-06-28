@@ -4,11 +4,11 @@
 { config, pkgs, home-manager, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./../../modules/nixos/hyprland.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../modules/nixos/hyprland.nix
+  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -52,9 +52,9 @@
   };
 
   home-manager = {
-    users = {
-      "muhifauzan" = import ./home.nix;
-    };
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.muhifauzan = ./home.nix;
   };
 
   # Allow unfree packages

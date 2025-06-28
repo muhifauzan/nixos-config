@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ../../modules/home-manager/hyprland.nix
+    ../../modules/home-manager/git.nix
+  ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "muhifauzan";
@@ -75,14 +80,4 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-  programs.git = {
-    enable = true;
-    userName = "Muhammad Fauzan";
-    userEmail = "mfauzanmhf@gmail.com";
-
-    extraConfig = {
-      init.defaultBranch = "master";
-    };
-  };
 }
