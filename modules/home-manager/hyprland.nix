@@ -1,15 +1,21 @@
 { pkgs, ... }:
 
 {
-  options = { };
+  imports = [
+    ./hyprland-config.nix
+  ];
 
-  config = {
-    home.packages = with pkgs; [ kitty ];
-
-    services = {
-      mako.enable = true;
-      hyprpolkitagent.enable = true;
-    };
+  wayland.windowManager.hyprland = {
+    enable = true;
   };
+
+  services = {
+    hyprpolkitagent.enable = true;
+    mako.enable = true;
+  };
+
+  home.packages = with pkgs; [
+    kitty
+  ];
 }
 

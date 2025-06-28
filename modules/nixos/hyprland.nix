@@ -1,14 +1,16 @@
 { pkgs, ... }:
 
 {
-  programs.hyprland = {
-    enable = true;
-    # Lets Hyprland launch via the Unified Wayland Session Manager (UWSM)
-    withUWSM = true;
-  };
+  programs = {
+    hyprland = {
+      enable = true;
+      # Lets Hyprland launch via the Unified Wayland Session Manager (UWSM)
+      withUWSM = true;
+    };
 
-  # For controlling backlight via Light
-  programs.light.enable = true;
+    # For controlling backlight via Light
+    light.enable = true;
+  };
 
   xdg.portal = {
     enable = true;
