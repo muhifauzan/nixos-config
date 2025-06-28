@@ -10,7 +10,10 @@
     ../../modules/nixos/hyprland.nix
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   hardware.graphics.enable = true;
 
