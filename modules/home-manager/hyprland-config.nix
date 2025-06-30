@@ -9,6 +9,7 @@
     "$webBrowser" = "firefox";
     "$fileManager" = "dolphin";
     "$menu" = "wofi --show drun";
+    "$claudeDesktop" = "claude-desktop";
 
     exec-once = [
       "$terminal"
@@ -134,6 +135,7 @@
       "$mainMod, T, exec, $terminal"
       "$mainMod, D, exec, $editor"
       "$mainMod, B, exec, $webBrowser"
+      "$mainMod, I, exec, $claudeDesktop"
       "$mainMod, Q, killactive,"
       "$mainMod, M, exit,"
       "$mainMod, E, exec, $fileManager"

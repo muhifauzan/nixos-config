@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, system, pkgs, ... }:
 
 {
   imports = [
@@ -10,7 +10,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
 
-    plugins = with inputs.hyprland-plugins.packages.${pkgs.system}; [
+    plugins = with inputs.hyprland-plugins.packages.${system}; [
       hyprbars
       hyprexpo
     ];
