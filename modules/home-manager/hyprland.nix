@@ -4,11 +4,11 @@
   imports = [
     ./hyprland-config.nix
     ./hyprland-plugin-config.nix
+    # ./hyprland-hyprpanel.nix
   ];
 
   wayland.windowManager.hyprland = {
     enable = true;
-    # package = pkgs.hyprland;
 
     plugins = with inputs.hyprland-plugins.packages.${pkgs.system}; [
       hyprbars
@@ -18,7 +18,7 @@
 
   services = {
     hyprpolkitagent.enable = true;
-    mako.enable = true;
+    mako.enable = false;
   };
 
   home.packages = with pkgs; [
@@ -27,4 +27,3 @@
     wofi
   ];
 }
-

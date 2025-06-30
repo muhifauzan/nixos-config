@@ -61,4 +61,3 @@
   # Needed for some Wayland apps to behave properly with multi-monitor setups
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 }
-

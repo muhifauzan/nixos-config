@@ -5,6 +5,8 @@
     "monitor" = ",preferred,auto,auto";
 
     "$terminal" = "kitty";
+    "$editor" = "zeditor";
+    "$webBrowser" = "firefox";
     "$fileManager" = "dolphin";
     "$menu" = "wofi --show drun";
 
@@ -22,11 +24,11 @@
     # ecosystem {
     #   enforce_permissions = 1
     # }
-    
+
     # permission = /usr/(bin|local/bin)/grim, screencopy, allow
     # permission = /usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland, screencopy, allow
     # permission = /usr/(bin|local/bin)/hyprpm, plugin, allow
-    
+
     general = {
       gaps_in = 5;
       gaps_out = 20;
@@ -37,20 +39,20 @@
       allow_tearing = false;
       layout = "dwindle;";
     };
-    
+
     decoration = {
       rounding = 10;
       rounding_power = 2;
       active_opacity = 1.0;
       inactive_opacity = 1.0;
-    
+
       shadow = {
         enabled = true;
         range = 4;
         render_power = 3;
         color = "rgba(1a1a1aee)";
       };
-    
+
       blur = {
         enabled = true;
         size = 3;
@@ -58,10 +60,10 @@
         vibrancy = 0.1696;
       };
     };
-    
+
     animations = {
       enabled = true;
-    
+
       bezier = [
         "easeOutQuint,0.23,1,0.32,1"
         "easeInOutCubic,0.65,0.05,0.36,1"
@@ -69,7 +71,7 @@
         "almostLinear,0.5,0.5,0.75,1.0"
         "quick,0.15,0,0.1,1"
       ];
-    
+
       animation = [
         "global, 1, 10, default"
         "border, 1, 5.39, easeOutQuint"
@@ -89,21 +91,21 @@
         "workspacesOut, 1, 1.94, almostLinear, fade"
       ];
     };
-    
+
     dwindle = {
       pseudotile = true;
       preserve_split = true;
     };
-    
+
     master = {
       new_status = "master";
     };
-    
+
     misc = {
       force_default_wallpaper = -1;
       disable_hyprland_logo = false;
     };
-    
+
     input = {
       kb_layout = "us";
       kb_variant = "";
@@ -116,21 +118,23 @@
         natural_scroll = false;
       };
     };
-    
+
     gestures = {
       workspace_swipe = false;
     };
-    
+
     device = {
       name = "epic-mouse-v1";
       sensitivity = -0.5;
     };
-    
+
     "$mainMod" = "SUPER";
-    
+
     bind = [
-      "$mainMod, Q, exec, $terminal"
-      "$mainMod, C, killactive,"
+      "$mainMod, T, exec, $terminal"
+      "$mainMod, D, exec, $editor"
+      "$mainMod, B, exec, $webBrowser"
+      "$mainMod, Q, killactive,"
       "$mainMod, M, exit,"
       "$mainMod, E, exec, $fileManager"
       "$mainMod, V, togglefloating,"
@@ -176,13 +180,13 @@
       "$mainMod, mouse_down, workspace, e+1"
       "$mainMod, mouse_up, workspace, e-1"
     ];
-    
+
     bindm = [
       # Move/resize windows with mainMod + LMB/RMB and dragging
       "$mainMod, mouse:272, movewindow"
       "$mainMod, mouse:273, resizewindow"
     ];
-    
+
     bindel = [
       # Laptop multimedia keys for volume and LCD brightness
       ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
@@ -192,7 +196,7 @@
       ",XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+"
       ",XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-"
     ];
-    
+
     bindl = [
       # Requires playerctl
       ", XF86AudioNext, exec, playerctl next"
@@ -200,11 +204,10 @@
       ", XF86AudioPlay, exec, playerctl play-pause"
       ", XF86AudioPrev, exec, playerctl previous"
     ];
-    
+
     windowrule = [
       "suppressevent maximize, class:.*"
       "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
     ];
   };
 }
-

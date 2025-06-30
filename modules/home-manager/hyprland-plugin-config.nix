@@ -5,4 +5,3 @@
     hyprbars.enabled = true;
   };
 }
-

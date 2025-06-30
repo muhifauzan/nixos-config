@@ -25,6 +25,11 @@
         hyprland.follows = "hyprland";
       };
     };
+
+    hyprpanel = {
+      url = "github:Jas-SinghFSU/HyprPanel";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { nixpkgs, home-manager, ... } @ inputs:
@@ -49,4 +54,3 @@
       };
     };
 }
-
