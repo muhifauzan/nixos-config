@@ -43,7 +43,8 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... } @ inputs:
+  outputs =
+    { nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
     in
@@ -55,7 +56,8 @@
           modules = [
             ./hosts/default/configuration.nix
 
-            home-manager.nixosModules.home-manager {
+            home-manager.nixosModules.home-manager
+            {
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 inherit system;

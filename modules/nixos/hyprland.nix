@@ -56,7 +56,7 @@
     pipewire.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [];
+  environment.systemPackages = [ ];
 
   # Needed for some Wayland apps to behave properly with multi-monitor setups
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
