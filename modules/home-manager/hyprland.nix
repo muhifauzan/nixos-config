@@ -8,8 +8,14 @@
 {
   imports = [
     ./hyprland-config.nix
-    ./hyprland-plugin-config.nix
+    ./hyprland-plugin.nix
     # ./hyprland-hyprpanel.nix
+  ];
+
+  home.packages = with pkgs; [
+    kdePackages.dolphin
+    kitty
+    wofi
   ];
 
   wayland.windowManager.hyprland = {
@@ -25,10 +31,4 @@
     hyprpolkitagent.enable = true;
     mako.enable = false;
   };
-
-  home.packages = with pkgs; [
-    kdePackages.dolphin
-    kitty
-    wofi
-  ];
 }

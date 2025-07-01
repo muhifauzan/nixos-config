@@ -53,10 +53,18 @@
       };
     };
 
-    pipewire.enable = true;
-  };
+    pipewire = {
+      enable = true;
+      wireplumber.enable = true;
+      audio.enable = true;
+      pulse.enable = true;
 
-  environment.systemPackages = [ ];
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+    };
+  };
 
   # Needed for some Wayland apps to behave properly with multi-monitor setups
   environment.sessionVariables.NIXOS_OZONE_WL = "1";

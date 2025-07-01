@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
-  home.packages = with pkgs; [
-    firefox
-    vim
-  ];
+  programs = {
+    firefox.enable = true;
+    vim.enable = true;
+  };
 
   services.podman.enable = true;
 }
