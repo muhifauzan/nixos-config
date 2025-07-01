@@ -39,8 +39,6 @@
     };
   };
 
-  security.polkit.enable = true;
-
   services = {
     displayManager = {
       defaultSession = "hyprland-uwsm";
@@ -50,18 +48,6 @@
         enable = true;
         # Enable experimental Wayland support
         wayland.enable = true;
-      };
-    };
-
-    pipewire = {
-      enable = true;
-      wireplumber.enable = true;
-      audio.enable = true;
-      pulse.enable = true;
-
-      alsa = {
-        enable = true;
-        support32Bit = true;
       };
     };
   };
