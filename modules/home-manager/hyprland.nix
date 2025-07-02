@@ -9,7 +9,6 @@
   imports = [
     ./hyprland-config.nix
     ./hyprland-plugin.nix
-    # ./hyprland-hyprpanel.nix
   ];
 
   config = {

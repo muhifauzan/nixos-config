@@ -1,16 +1,16 @@
-{ inputs, ... }:
+{ pkgs, ... }:
 
 {
-  imports = [
-    inputs.hyprpanel.homeManagerModules.hyprpanel
-  ];
-
   config = {
+    home.packages = with pkgs; [
+      hyprpanel
+    ];
+
     programs.hyprpanel = {
       enable = true;
-      # systemd.enable = true;
+      systemd.enable = true;
       # hyprland.enable = true;
-      # overwrite.enable = true;
+      overwrite.enable = true;
       # settings = {
       #   bar.launcher.autoDetectIcon = true;
       #   bar.workspaces.show_icons = true;
