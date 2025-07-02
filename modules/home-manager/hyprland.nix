@@ -12,23 +12,25 @@
     # ./hyprland-hyprpanel.nix
   ];
 
-  home.packages = with pkgs; [
-    kdePackages.dolphin
-    kitty
-    wofi
-  ];
-
-  wayland.windowManager.hyprland = {
-    enable = true;
-
-    plugins = with inputs.hyprland-plugins.packages.${system}; [
-      hyprbars
-      hyprexpo
+  config = {
+    home.packages = with pkgs; [
+      kdePackages.dolphin
+      kitty
+      wofi
     ];
-  };
 
-  services = {
-    hyprpolkitagent.enable = true;
-    mako.enable = false;
+    wayland.windowManager.hyprland = {
+      enable = true;
+
+      plugins = with inputs.hyprland-plugins.packages.${system}; [
+        hyprbars
+        hyprexpo
+      ];
+    };
+
+    services = {
+      hyprpolkitagent.enable = true;
+      mako.enable = false;
+    };
   };
 }

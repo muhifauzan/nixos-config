@@ -1,10 +1,10 @@
 { ... }:
 
 {
-  programs = {
-    firefox.enable = true;
-    vim.enable = true;
+  config = {
+    programs = {
+      firefox.enable = true;
+      vim.enable = true;
+    };
   };
-
-  services.podman.enable = true;
 }

@@ -47,6 +47,19 @@
     { nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
+
+      homeManagerConfig = {
+        home-manager = {
+          backupFileExtension = "bak";
+          useGlobalPkgs = true;
+          useUserPackages = true;
+
+          extraSpecialArgs = {
+            inherit inputs;
+            inherit system;
+          };
+        };
+      };
     in
     {
       nixosConfigurations = {
@@ -55,14 +68,8 @@
 
           modules = [
             ./hosts/default/configuration.nix
-
             home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                inherit system;
-              };
-            }
+            homeManagerConfig
           ];
         };
       };

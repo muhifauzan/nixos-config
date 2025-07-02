@@ -1,12 +1,14 @@
 { pkgs, ... }:
 
 {
-  home.packages = with pkgs; [
-    nixd
-    nixfmt-rfc-style
-  ];
+  config = {
+    home.packages = with pkgs; [
+      nixd
+      nixfmt-rfc-style
+    ];
 
-  programs.zed-editor.enable = true;
+    programs.zed-editor.enable = true;
 
-  nixGL.vulkan.enable = true;
+    nixGL.vulkan.enable = true;
+  };
 }
