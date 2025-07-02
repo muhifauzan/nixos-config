@@ -1,18 +1,18 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   config = {
-    # home.packages = with pkgs; [
-    #   nixd
-    #   nixfmt-rfc-style
-    # ];
-
     programs.zed-editor = {
       enable = true;
 
       extensions = [
         "elixir"
         "nix"
+      ];
+
+      extraPackages = with pkgs; [
+        nixd
+        nixfmt-rfc-style
       ];
     };
 
