@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./zsh.nix
+    ./shell.nix
     ./hyprland.nix
     ./packages.nix
     ./git.nix

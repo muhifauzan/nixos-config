@@ -15,9 +15,21 @@
   config = {
     home.packages = with pkgs; [
       kdePackages.dolphin
-      kitty
-      wofi
     ];
+
+    programs = {
+      wofi.enable = true;
+
+      hyprpanel = {
+        enable = true;
+        systemd.enable = true;
+      };
+
+      kitty = {
+        enable = true;
+        shellIntegration.enableZshIntegration = true;
+      };
+    };
 
     wayland.windowManager.hyprland = {
       enable = true;

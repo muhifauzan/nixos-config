@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+{ pkgs, ... }:
 
 {
   config = {
@@ -56,6 +51,7 @@
 
       ssh = {
         enable = true;
+        addKeysToAgent = "confirm";
 
         matchBlocks = {
           "github.com" = {
@@ -75,18 +71,11 @@
       gpg.enable = true;
     };
 
-    services.gpg-agent =
-      {
-        enable = true;
-        enableSshSupport = true;
-        pinentry.package = pkgs.pinentry-rofi;
-        defaultCacheTtl = 3;
-        defaultCacheTtlSsh = 3;
-        maxCacheTtl = 3;
-        maxCacheTtlSsh = 3;
-      }
-      // lib.optionalAttrs config.programs.zsh.enable {
-        enableZshIntegration = true;
-      };
+    services.gpg-agent = {
+      enable = true;
+      enableSshSupport = true;
+      enableZshIntegration = true;
+      pinentry.package = pkgs.pinentry-rofi;
+    };
   };
 }

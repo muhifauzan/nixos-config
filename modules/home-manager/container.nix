@@ -2,6 +2,9 @@
 
 {
   config = {
-    services.podman.enable = true;
+    services.podman = {
+      enable = true;
+      autoUpdate.enable = true;
+    };
   };
 }

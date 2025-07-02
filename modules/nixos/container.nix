@@ -2,9 +2,9 @@
 
 {
   config = {
-    users.users.${config.username} = {
-      extraGroups = [ "podman" ];
+    virtualisation.podman.autoPrune.enable = true;
 
+    users.users.${config.username} = {
       subUidRanges = [
         {
           startUid = 100000;

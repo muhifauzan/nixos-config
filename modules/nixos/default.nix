@@ -6,7 +6,7 @@
     ./system.nix
     ./video.nix
     ./audio.nix
-    ./zsh.nix
+    ./shell.nix
     ./hyprland.nix
     ./container.nix
   ];
