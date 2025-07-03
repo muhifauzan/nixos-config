@@ -1,10 +1,10 @@
 { pkgs, lib, ... }:
 
 let
-  gruvboxRainbowPreset = pkgs.fetchurl {
-    url = "https://raw.githubusercontent.com/starship/starship/refs/tags/v1.23.0/docs/public/presets/toml/gruvbox-rainbow.toml";
-    sha256 = "sha256-AwdWRDPt9MH5+bwQNbqvLgs+dTKjGctci1XhDn8XXGo=";
-  };
+  # gruvboxRainbowPreset = pkgs.fetchurl {
+  #   url = "https://raw.githubusercontent.com/starship/starship/refs/tags/v1.23.0/docs/public/presets/toml/gruvbox-rainbow.toml";
+  #   sha256 = "sha256-AwdWRDPt9MH5+bwQNbqvLgs+dTKjGctci1XhDn8XXGo=";
+  # };
 
   catppuccinPowerlinePreset = pkgs.fetchurl {
     url = "https://raw.githubusercontent.com/starship/starship/refs/tags/v1.23.0/docs/public/presets/toml/catppuccin-powerline.toml";
