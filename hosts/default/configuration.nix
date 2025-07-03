@@ -3,11 +3,15 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   config,
-  pkgs,
   lib,
+  pkgs,
   ...
 }:
 
+let
+  inherit (config) username user;
+  inherit (lib) mkOption types;
+in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -16,14 +20,14 @@
   ];
 
   options = {
-    username = lib.mkOption {
-      type = lib.types.str;
+    username = mkOption {
+      type = types.str;
       default = "muhifauzan";
       description = "Primary system user";
     };
 
-    user.name = lib.mkOption {
-      type = lib.types.str;
+    user.name = mkOption {
+      type = types.str;
       default = "Muhammad Hilmy Fauzan";
       description = "Primary system user name";
     };
@@ -65,9 +69,9 @@
     };
 
     # Define a user account. Don't forget to set a password with ‘passwd’.
-    users.users.${config.username} = {
+    users.users.${username} = {
       isNormalUser = true;
-      description = config.user.name;
+      description = user.name;
       extraGroups = [
         "networkmanager"
         "wheel"
@@ -112,6 +116,8 @@
     # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
     system.stateVersion = "25.05"; # Did you read the comment?
 
-    home-manager.users.${config.username} = ./home.nix;
+    home-manager.users.${username} = ./home.nix;
+
+    modules.spotify.enable = true;
   };
 }
