@@ -32,8 +32,11 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
-  time.timeZone = "Asia/Jakarta";
+  # Set your time zone and use local time (Windows dual-boot compatible)
+  time = {
+    timeZone = "Asia/Jakarta";
+    hardwareClockInLocalTime = true;  # Makes Linux use local time like Windows
+  };
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";
