@@ -1,8 +1,8 @@
-{ config, pkgs, ... }:
+{ user, pkgs, ... }:
 
 {
   config = {
     programs.zsh.enable = true;
-    users.users.${config.username}.shell = pkgs.zsh;
+    users.users.${user.username}.shell = pkgs.zsh;
   };
 }

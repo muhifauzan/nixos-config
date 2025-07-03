@@ -1,10 +1,10 @@
-{ config, ... }:
+{ user, ... }:
 
 {
   config = {
     virtualisation.podman.autoPrune.enable = true;
 
-    users.users.${config.username} = {
+    users.users.${user.username} = {
       subUidRanges = [
         {
           startUid = 100000;

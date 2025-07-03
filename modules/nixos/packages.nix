@@ -1,4 +1,5 @@
 {
+  user,
   config,
   lib,
   pkgs,
@@ -6,9 +7,7 @@
 }:
 
 let
-  inherit (config) username;
   inherit (lib) mkEnableOption mkIf;
-
   cfg = config.modules;
 in
 {
@@ -17,7 +16,7 @@ in
   };
 
   config = mkIf cfg.spotify.enable {
-    users.users.${username}.packages = [ pkgs.spotify ];
+    users.users.${user.username}.packages = [ pkgs.spotify ];
 
     networking.firewall = {
       # Sync local tracks from filesystem with mobile devices in the same network
