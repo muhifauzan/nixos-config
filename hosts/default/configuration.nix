@@ -35,7 +35,7 @@
   # Set your time zone and use local time (Windows dual-boot compatible)
   time = {
     timeZone = "Asia/Jakarta";
-    hardwareClockInLocalTime = true;  # Makes Linux use local time like Windows
+    hardwareClockInLocalTime = true; # Makes Linux use local time like Windows
   };
 
   # Select internationalisation properties.

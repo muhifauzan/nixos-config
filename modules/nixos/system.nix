@@ -7,42 +7,32 @@
   };
 
   services = {
-    # Time synchronization (hardware clock configured in configuration.nix)
+    # Time synchronization
     timesyncd.enable = true;
 
     # Firmware updates for security and performance
     fwupd.enable = true;
 
-    # Thermal management to prevent overheating
+    # Thermal management (important for high-performance mobile CPU)
     thermald.enable = true;
 
-    # Laptop-optimized CPU frequency management
-    auto-cpufreq = {
+    # AMD Energy Performance Preference - optimal for Zen 3
+    auto-epp = {
       enable = true;
 
       settings = {
-        # Conservative battery settings for maximum battery life
-        battery = {
-          governor = "powersave";
-          turbo = "never";
-          # Let auto-cpufreq determine optimal frequencies for your CPU
-        };
-
-        # Performance when plugged in
-        charger = {
-          governor = "performance";
-          turbo = "auto";
-          # Use full CPU capabilities when charging
+        Settings = {
+          # Balanced approach: performance when needed, efficiency on battery
+          epp_state_for_AC = "performance"; # Full power when plugged in
+          epp_state_for_BAT = "balance_power"; # Balanced battery life
         };
       };
     };
   };
 
-  # Power management - let auto-cpufreq handle CPU frequency
+  # Power management optimizations
   powerManagement = {
     enable = true;
-    # powertop recommendations for better power usage
     powertop.enable = true;
-    # Note: cpuFreqGovernor is NOT set - auto-cpufreq handles this
   };
 }
