@@ -8,8 +8,9 @@
     ./audio.nix
     ./nerdfonts.nix
     ./shell.nix
+    ./container.nix
     ./etc-hosts.nix
     ./hyprland.nix
-    ./container.nix
+    ./packages.nix
   ];
 }

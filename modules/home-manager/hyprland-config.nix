@@ -15,6 +15,7 @@
       "$fileManager" = "dolphin";
       "$menu" = "rofi -show drun";
       "$claudeDesktop" = "claude-desktop";
+      "$musicPlayer" = "spotify";
 
       exec-once = [
         "$editor"
