@@ -3,19 +3,24 @@
 {
   config = {
     wayland.windowManager.hyprland.settings = {
-      "monitor" = ",preferred,auto,auto";
+      "monitor" = ",highres@highrr,auto,auto";
+      # "monitor" = [
+      #   "eDP1, 2880x1800@90,  auto, auto"
+      #   "DP-4, 3440x1440@144, auto, auto"
+      # ];
 
       "$terminal" = "kitty";
       "$editor" = "zeditor";
       "$webBrowser" = "firefox";
       "$fileManager" = "dolphin";
-      "$menu" = "wofi --show drun";
+      "$menu" = "rofi -show drun";
       "$claudeDesktop" = "claude-desktop";
 
       exec-once = [
+        "$editor"
         "$terminal"
         "nm-applet &"
-        "waybar & hyprpaper & firefox"
+        "waybar & hyprpaper & $webBrowser"
       ];
 
       env = [

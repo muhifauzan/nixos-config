@@ -14,11 +14,10 @@
   config = {
     home.packages = with pkgs; [
       kdePackages.dolphin
+      rofi-wayland
     ];
 
     programs = {
-      wofi.enable = true;
-
       hyprpanel = {
         enable = true;
         systemd.enable = true;

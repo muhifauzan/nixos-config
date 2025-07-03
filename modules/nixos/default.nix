@@ -7,6 +7,7 @@
     ./video.nix
     ./audio.nix
     ./shell.nix
+    ./etc-hosts.nix
     ./hyprland.nix
     ./container.nix
   ];
