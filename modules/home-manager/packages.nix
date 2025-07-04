@@ -1,58 +1,73 @@
-{ pkgs, ... }:
-
 {
-  config = {
-    # User-specific packages for development and workflow
-    home.packages = with pkgs; [
-      # System monitoring (modern alternatives)
-      btop
-      neofetch
+  osConfig,
+  pkgs,
+  lib,
+  ...
+}:
 
-      # Nix ecosystem tools
-      nix-tree # Nix dependency explorer
-      nix-output-monitor # Better nix build output
+let
+  inherit (lib) mkMerge mkIf;
+  cfg = osConfig.modules;
+in
+{
+  config = mkMerge [
+    {
+      # User-specific packages for development and workflow
+      home.packages = with pkgs; [
+        # System monitoring (modern alternatives)
+        btop
+        neofetch
 
-      # Development tools
-      git-lfs # Git large file support
+        # Nix ecosystem tools
+        nix-tree # Nix dependency explorer
+        nix-output-monitor # Better nix build output
 
-      # File management (modern alternatives)
-      fd # Modern find alternative (complements fzf)
-      duf # Modern df alternative
-      dust # Modern du alternative
+        # Development tools
+        git-lfs # Git large file support
 
-      # Media tools (complements your media consumption)
-      ffmpeg # Video/audio processing
-      imagemagick # Image processing
+        # File management (modern alternatives)
+        fd # Modern find alternative (complements fzf)
+        duf # Modern df alternative
+        dust # Modern du alternative
 
-      # Archive tools (user-level)
-      atool # Archive tool wrapper
+        # Media tools (complements your media consumption)
+        ffmpeg # Video/audio processing
+        imagemagick # Image processing
 
-      # JSON/YAML tools
-      fx # Interactive JSON viewer
-    ];
+        # Archive tools (user-level)
+        atool # Archive tool wrapper
 
-    programs = {
-      bat.enable = true;
-      firefox.enable = true;
-      ripgrep.enable = true;
-      ripgrep-all.enable = true;
+        # JSON/YAML tools
+        fx # Interactive JSON viewer
+      ];
 
-      eza = {
-        enable = true;
-        enableZshIntegration = true;
-        git = true;
-        icons = "auto";
+      programs = {
+        firefox.enable = true;
+        ripgrep.enable = true;
+        ripgrep-all.enable = true;
+
+        eza = {
+          enable = true;
+          enableZshIntegration = true;
+          git = true;
+          icons = "auto";
+        };
+
+        fzf = {
+          enable = true;
+          enableZshIntegration = true;
+        };
+
+        vim = {
+          enable = true;
+          defaultEditor = true;
+        };
       };
-
-      fzf = {
-        enable = true;
-        enableZshIntegration = true;
+    }
+    (mkIf cfg.extra-packages.enable {
+      programs = {
+        bat.enable = true;
       };
-
-      vim = {
-        enable = true;
-        defaultEditor = true;
-      };
-    };
-  };
+    })
+  ];
 }

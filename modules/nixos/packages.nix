@@ -7,36 +7,11 @@
 }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkDefault
-    mkMerge
-    mkIf
-    ;
+  inherit (lib) mkMerge mkIf;
   cfg = config.modules;
 in
 {
-  options = {
-    modules = {
-      essential-packages.enable = mkEnableOption "essential packages";
-      system-packages.enable = mkEnableOption "system utility packages";
-      network-packages.enable = mkEnableOption "network utility packages";
-      archive-packages.enable = mkEnableOption "archive utility packages";
-      extra-packages.enable = mkEnableOption "extra packages";
-      spotify.enable = mkEnableOption "Spotify";
-    };
-  };
-
   config = mkMerge [
-    {
-      modules.essential-packages.enable = mkDefault true;
-      modules.network-packages.enable = mkDefault cfg.extra-packages.enable;
-      modules.archive-packages.enable = mkDefault cfg.extra-packages.enable;
-
-      modules.system-packages.enable = mkDefault (
-        cfg.essential-packages.enable || cfg.extra-packages.enable
-      );
-    }
     (mkIf cfg.system-packages.enable {
       environment.systemPackages = with pkgs; [
         dmidecode
