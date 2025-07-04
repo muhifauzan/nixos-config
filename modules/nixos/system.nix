@@ -13,9 +13,6 @@
     # Firmware updates for security and performance
     fwupd.enable = true;
 
-    # Thermal management (important for high-performance mobile CPU)
-    thermald.enable = true;
-
     # AMD Energy Performance Preference - optimal for Zen 3
     auto-epp = {
       enable = true;
