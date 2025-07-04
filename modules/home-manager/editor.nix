@@ -17,5 +17,7 @@
     };
 
     nixGL.vulkan.enable = true;
+
+    home.sessionVariables.VISUAL = "zeditor";
   };
 }

@@ -13,14 +13,19 @@ in
 {
   config = mkMerge [
     (mkIf cfg.system-packages.enable {
-      environment.systemPackages = with pkgs; [
-        dmidecode
-        file
-        htop
-        lshw
-        pciutils
-        usbutils
-      ];
+      environment = {
+        systemPackages = with pkgs; [
+          dmidecode
+          file
+          htop
+          less
+          lshw
+          pciutils
+          usbutils
+        ];
+
+        variables.LESS = "-iMRSW";
+      };
     })
     (mkIf cfg.network-packages.enable {
       users.users.${user.username}.packages = with pkgs; [

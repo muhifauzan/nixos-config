@@ -66,7 +66,17 @@ in
     }
     (mkIf cfg.extra-packages.enable {
       programs = {
-        bat.enable = true;
+        bat = {
+          enable = true;
+
+          config = {
+            italic-text = "always";
+            paging = "always";
+            set-terminal-title = true;
+            style = "full";
+            wrap = "never";
+          };
+        };
       };
     })
   ];
