@@ -24,7 +24,15 @@ in
           usbutils
         ];
 
-        variables.LESS = "-iMRSW";
+        variables = {
+          LESS = "-iMRSW";
+          PAGER = "less";
+        };
+      };
+
+      programs.vim = {
+        enable = true;
+        defaultEditor = true;
       };
     })
     (mkIf cfg.network-packages.enable {
