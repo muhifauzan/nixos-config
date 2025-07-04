@@ -95,5 +95,7 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
+  modules.essential-packages.enable = true;
+  modules.extra-packages.enable = true;
   modules.spotify.enable = true;
 }
