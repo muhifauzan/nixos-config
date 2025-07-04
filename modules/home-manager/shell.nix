@@ -19,6 +19,10 @@ in
 
         plugins = with pkgs; [
           {
+            name = zsh-vi-mode.pname;
+            src = zsh-vi-mode.src;
+          }
+          {
             name = zsh-syntax-highlighting.pname;
             src = zsh-syntax-highlighting.src;
           }
