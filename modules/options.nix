@@ -12,6 +12,9 @@ in
       network-packages.enable = mkEnableOption "network utility packages";
       archive-packages.enable = mkEnableOption "archive utility packages";
       extra-packages.enable = mkEnableOption "extra packages";
+
+      dev.nix.enable = mkEnableOption "nix development";
+
       spotify.enable = mkEnableOption "Spotify";
     };
   };

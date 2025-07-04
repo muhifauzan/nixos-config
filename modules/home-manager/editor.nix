@@ -8,6 +8,7 @@
       extensions = [
         "elixir"
         "nix"
+        "toml"
       ];
 
       extraPackages = with pkgs; [
