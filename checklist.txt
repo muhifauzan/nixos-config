@@ -1,4 +1,3 @@
-- fix zed portal for file picker
 - use stylix for theming framework
 - use JetBrainsMono Nerd Font for zed
 - configure treefmt to be used inside nix command
@@ -8,3 +7,6 @@
 - update command aliases
 - update hyprland config for monitor
 - update hyprland config to use master mode
+- only inherit inputs in flake
+- add more git aliases
+- review home-manager packages.nix

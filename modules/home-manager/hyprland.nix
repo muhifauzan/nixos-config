@@ -5,6 +5,10 @@
   ...
 }:
 
+let
+  hyprlandPackages = inputs.hyprland.packages.${system};
+  hyprlandPlugins = inputs.hyprland-plugins.packages.${system};
+in
 {
   imports = [
     ./hyprland-config.nix
@@ -14,14 +18,12 @@
   config = {
     home.packages = with pkgs; [
       kdePackages.dolphin
+      kdePackages.kwallet
       rofi-wayland
     ];
 
     programs = {
-      hyprpanel = {
-        enable = true;
-        systemd.enable = true;
-      };
+      hyprpanel.enable = true;
 
       kitty = {
         enable = true;
@@ -37,14 +39,35 @@
     wayland.windowManager.hyprland = {
       enable = true;
 
-      plugins = with inputs.hyprland-plugins.packages.${system}; [
+      # Set to null because it's being installed via NixOS module
+      package = null;
+
+      # Use the one from flake
+      portalPackage = hyprlandPackages.xdg-desktop-portal-hyprland;
+
+      plugins = with hyprlandPlugins; [
         hyprbars
         hyprexpo
       ];
     };
 
+    xdg.portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+      extraPortals = [ pkgs.kdePackages.xdg-desktop-portal-kde ];
+
+      config.hyprland = {
+        default = [
+          "hyprland"
+          "kde"
+        ];
+      };
+    };
+
     services = {
       hyprpolkitagent.enable = true;
+
+      # NOTE: switch to true if not using hyprpanel
       mako.enable = false;
     };
   };
