@@ -4,9 +4,10 @@
 - proper configure hibernate
 - add proper keybind for zsh (ex: ctrl+directional)
 - update git aliases
-- update command aliases
+- update shell aliases
 - update hyprland config for monitor
 - update hyprland config to use master mode
 - only inherit inputs in flake
 - add more git aliases
 - review home-manager packages.nix
+- make options toggle more dynamic based config value

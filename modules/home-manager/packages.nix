@@ -72,6 +72,11 @@ in
           enable = true;
           enableZshIntegration = true;
         };
+
+        # TODO: make it dynamic based on zsh.enable config
+        zsh.initContent = lib.mkOrder 1000 ''
+          zvm_after_init_commands+=('source <(${pkgs.fzf}/bin/fzf --zsh)')
+        '';
       };
     })
   ];
