@@ -139,17 +139,22 @@
       "$mainMod" = "SUPER";
 
       bind = [
+        "$mainMod, M, exit,"
+        "$mainMod, Q, killactive,"
+
+        "$mainMod, A, exec, $menu"
         "$mainMod, T, exec, $terminal"
         "$mainMod, D, exec, $editor"
-        "$mainMod, B, exec, $webBrowser"
         "$mainMod, I, exec, $claudeDesktop"
-        "$mainMod, Q, killactive,"
-        "$mainMod, M, exit,"
+        "$mainMod, B, exec, $webBrowser"
         "$mainMod, E, exec, $fileManager"
-        "$mainMod, V, togglefloating,"
-        "$mainMod, R, exec, $menu"
+        "$mainMod, U, exec, $musicPlayer"
+
         "$mainMod, P, pseudo,"
+
+        "$mainMod, F, togglefloating,"
         "$mainMod, J, togglesplit,"
+        "$mainMod, K, togglesplit,"
 
         # Move focus with mainMod + arrow keys
         "$mainMod, left, movefocus, l"
