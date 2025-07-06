@@ -1,5 +1,8 @@
-{ user, ... }:
+{ machine, ... }:
 
+let
+  inherit (machine) user;
+in
 {
   imports = [
     ../../modules/home-manager

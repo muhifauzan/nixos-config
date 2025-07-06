@@ -1,6 +1,7 @@
-{ inputs, system, ... }:
+{ machine, inputs, ... }:
 
 let
+  inherit (machine) system;
   hyprlandPackages = inputs.hyprland.packages.${system};
 in
 {

@@ -1,5 +1,8 @@
-{ user, ... }:
+{ machine, ... }:
 
+let
+  inherit (machine) user;
+in
 {
   config = {
     virtualisation.podman.autoPrune.enable = true;

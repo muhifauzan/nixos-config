@@ -1,13 +1,15 @@
 {
-  user,
   config,
   lib,
   pkgs,
+  machine,
   ...
 }:
 
 let
   inherit (lib) mkMerge mkIf;
+  inherit (machine) user;
+
   cfg = config.modules;
 in
 {

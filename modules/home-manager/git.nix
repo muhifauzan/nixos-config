@@ -26,7 +26,7 @@
           st = "status";
           ch = "checkout";
           br = "branch";
-          ad = "add .";
+          ad = "add";
           aa = "add --all";
           di = "diff";
           co = "commit";

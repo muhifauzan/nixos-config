@@ -1,5 +1,8 @@
-{ inputs, system, ... }:
+{ machine, inputs, ... }:
 
+let
+  inherit (machine) system;
+in
 {
   config = {
     home.packages = [

@@ -41,9 +41,8 @@
   outputs =
     { nixpkgs, home-manager, ... }@inputs:
     let
+      utils = import ./lib/utils.nix { lib = nixpkgs.lib; };
       system = "x86_64-linux";
-      workstation = "panthera";
-      laptop = "acinonyx";
 
       user = rec {
         username = "muhifauzan";
@@ -51,83 +50,20 @@
         name = "Muhammad Hilmy Fauzan";
       };
 
-      buildConfiguration =
-        {
-          system,
-          hostname,
-          user,
-          home-manager,
-          inputs,
-          nixosConfig,
-          homeManagerConfig,
-        }:
+      defaultMachine = utils.mkDefaults { inherit system user inputs; };
 
-        nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit
-              system
-              hostname
-              user
-              inputs
-              ;
-          };
-
-          modules = [
-            nixosConfig
-            home-manager.nixosModules.home-manager
-
-            {
-              nix.settings.experimental-features = [
-                "nix-command"
-                "flakes"
-              ];
-
-              home-manager = {
-                extraSpecialArgs = {
-                  inherit
-                    system
-                    hostname
-                    user
-                    inputs
-                    ;
-                };
-
-                backupFileExtension = "bak";
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.${user.username} = homeManagerConfig;
-              };
-            }
-          ];
-        };
-    in
-    {
-      nixosConfigurations = {
-        ${workstation} = buildConfiguration {
-          inherit
-            system
-            user
-            home-manager
-            inputs
-            ;
-
-          hostname = laptop;
-          nixosConfig = ./hosts/default/configuration.nix;
-          homeManagerConfig = ./hosts/default/home.nix;
-        };
-
-        ${laptop} = buildConfiguration {
-          inherit
-            system
-            user
-            home-manager
-            inputs
-            ;
-
-          hostname = laptop;
-          nixosConfig = ./hosts/default/configuration.nix;
-          homeManagerConfig = ./hosts/default/home.nix;
+      machines = {
+        laptop = utils.mkMachine defaultMachine {
+          hostname = "acinonyx";
         };
       };
+
+    in
+    {
+      debug = utils.showConfigurations machines;
+      validate = utils.validateMachines (
+        nixpkgs.lib.mapAttrs (_: resolved: resolved.machine) (utils.autoResolveConfigurations machines)
+      );
+      nixosConfigurations = utils.buildConfigurations machines;
     };
 }

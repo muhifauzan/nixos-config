@@ -1,5 +1,8 @@
-{ user, pkgs, ... }:
+{ pkgs, machine, ... }:
 
+let
+  inherit (machine) user;
+in
 {
   config = {
     programs.zsh.enable = true;
