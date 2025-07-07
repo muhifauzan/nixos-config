@@ -7,7 +7,9 @@
 - update shell aliases
 - update hyprland config for monitor
 - update hyprland config to use master mode
-- only inherit inputs in flake
-- add more git aliases
 - review home-manager packages.nix
 - make options toggle more dynamic based config value
+- understand about nixpkgs system model
+- understand about flake-parts
+- understand about cachix
+- understand about lib.fix
