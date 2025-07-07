@@ -50,29 +50,26 @@
         name = "Muhammad Hilmy Fauzan";
       };
 
-      defaultMachine = utils.mkDefaults { inherit system user inputs; };
+      mkMachine = utils.mkMachineDefaults { inherit system user inputs; };
 
       machines = {
-        workstation = utils.mkMachine defaultMachine {
+        workstation = mkMachine {
           hostname = "panthera";
           aliases = [ "pc" ];
         };
 
-        laptop = utils.mkMachine defaultMachine {
+        laptop = mkMachine {
           hostname = "acinonyx";
         };
 
-        server = utils.mkMachine defaultMachine {
+        server = mkMachine {
           homeManager = false;
         };
       };
 
     in
     {
-      debug = utils.showConfigurations machines;
-      validate = utils.validateMachines (
-        nixpkgs.lib.mapAttrs (_: resolved: resolved.machine) (utils.autoResolveConfigurations machines)
-      );
       nixosConfigurations = utils.buildConfigurations machines;
+      debug = { inherit utils machines; };
     };
 }

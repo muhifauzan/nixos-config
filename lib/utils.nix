@@ -1,84 +1,60 @@
-{ lib }:
+{ lib, ... }:
 
 let
-  mkDefaults =
-    {
-      system,
-      user,
-      inputs,
-      hostname ? null,
-      configDir ? null,
-      nixosConfig ? null,
-      homeManager ? null,
-      homeManagerConfig ? null,
-      aliases ? [ ],
-    }:
-    {
-      inherit
-        system
-        hostname
-        user
-        configDir
-        nixosConfig
-        homeManager
-        homeManagerConfig
-        inputs
-        aliases
-        ;
-    };
+  defaultMachine = {
+    # Required
+    system = null;
+    user = null;
+    inputs = null;
 
-  mkMachine = defaults: overrides: defaults // overrides;
+    # Auto-resolved
+    hostname = null;
+    configDir = null;
+    nixosConfig = null;
+    homeManager = null;
+    homeManagerConfig = null;
+
+    # Optional
+    aliases = [ ];
+  };
+
+  mkMachineDefaults = defaults: overrides: defaultMachine // defaults // overrides;
 
   validateMachines =
     machines:
     let
-      primaryNames = lib.attrNames machines;
-
-      collectNamesWithSource = lib.foldl' (
-        acc: name:
+      collectNames =
+        name: machine:
         let
-          machine = machines.${name};
           hostname = machine.hostname;
           aliases = machine.aliases;
-        in
-        lib.concatLists [
-          acc
-          [
-            {
-              name = name;
-              source = "primary";
-              machine = name;
-              hostname = hostname;
-            }
-          ]
-          (lib.optional (hostname != name) {
-            name = hostname;
-            source = "hostname";
-            machine = name;
-            hostname = hostname;
-          })
-          (lib.map (alias: {
-            name = alias;
-            source = "alias";
-            machine = name;
-            hostname = hostname;
-          }) aliases)
-        ]
-      ) [ ] primaryNames;
 
-      nameGroups = lib.groupBy (item: item.name) collectNamesWithSource;
+          mkRecord = recordName: source: {
+            inherit source hostname;
+
+            name = recordName;
+            machine = name;
+          };
+
+        in
+        [ (mkRecord name "primary") ]
+        ++ lib.optional (hostname != null && hostname != name) (mkRecord hostname "hostname")
+        ++ lib.map (alias: mkRecord alias "alias") aliases;
+
+      allNameSources = lib.flatten (lib.mapAttrsToList collectNames machines);
+      nameGroups = lib.groupBy (item: item.name) allNameSources;
       conflicts = lib.filterAttrs (name: items: lib.length items > 1) nameGroups;
 
-      conflictMessages = lib.mapAttrsToList (
+      formatConflict =
         name: items:
         let
           sources = lib.map (
             item: "${item.machine} (hostname: ${item.hostname}, source: ${item.source})"
           ) items;
         in
-        "Name '${name}' conflicts between: ${lib.concatStringsSep ", " sources}"
-      ) conflicts;
+        "Name '${name}' conflicts between: ${lib.concatStringsSep ", " sources}";
 
+      conflictMessages = lib.mapAttrsToList formatConflict conflicts;
     in
     if conflicts == { } then
       true
@@ -124,10 +100,30 @@ let
       ];
     };
 
+  collectAllNames =
+    machineConfigs:
+    lib.foldlAttrs
+      (acc: name: machine: {
+        names = acc.names ++ [ name ];
+        hostnames = acc.hostnames ++ [ machine.hostname ];
+        aliases = acc.aliases ++ machine.aliases;
+        allAliases = acc.allAliases ++ [ machine.hostname ] ++ machine.aliases;
+      })
+      {
+        names = [ ];
+        hostnames = [ ];
+        aliases = [ ];
+        allAliases = [ ];
+      }
+      machineConfigs;
+
+  resolveMachineConfigs =
+    machines: lib.mapAttrs (_: resolved: resolved.machine) (autoResolveConfigurations machines);
+
   buildConfigurations =
     machines:
     let
-      machineConfigs = lib.mapAttrs (_: resolved: resolved.machine) (autoResolveConfigurations machines);
+      machineConfigs = resolveMachineConfigs machines;
 
       configs = lib.mapAttrs (
         name: machine:
@@ -141,25 +137,39 @@ let
         }
       ) machineConfigs;
 
-      hostnameAliases = lib.mapAttrs' (
-        name: machine: lib.nameValuePair machine.hostname configs.${name}
-      ) machineConfigs;
+      nameCollections = collectAllNames machineConfigs;
+      aliases = nameCollections.allAliases;
 
-      customAliases = lib.foldlAttrs (
-        acc: name: machine:
+      findConfigForAlias =
+        alias:
         let
-          aliases = lib.listToAttrs (
-            lib.map (alias: lib.nameValuePair alias configs.${name}) machine.aliases
-          );
+          matchName = lib.findFirst (
+            name: machineConfigs.${name}.hostname == alias || lib.elem alias machineConfigs.${name}.aliases
+          ) null (lib.attrNames machineConfigs);
         in
-        acc // aliases
-      ) { } machineConfigs;
+        configs.${matchName};
+
+      aliasConfigs = lib.genAttrs aliases findConfigForAlias;
 
     in
-    configs // hostnameAliases // customAliases;
+    configs // aliasConfigs;
 
-  autoResolveConfigurations =
-    machines: lib.mapAttrs (name: machine: autoResolveMachine name machine) machines;
+  mkResolver =
+    key: resolverFn:
+    { machine, autoResolve }:
+    let
+      resolved = resolverFn machine;
+    in
+    {
+      machine = machine // {
+        ${key} = resolved.value;
+      };
+      autoResolve = autoResolve // {
+        ${key} = resolved.isAuto;
+      };
+    };
+
+  autoResolveConfigurations = machines: lib.mapAttrs autoResolveMachine machines;
 
   autoResolveMachine =
     name: machine:
@@ -193,107 +203,78 @@ let
       };
     };
 
-  autoResolveConfigDir =
-    { machine, autoResolve }:
-    let
-      resolved =
-        if lib.isPath machine.configDir then
-          {
-            value = machine.configDir;
-            isAuto = false;
-          }
-        else if lib.isString machine.configDir then
-          {
-            value = ../hosts/${machine.configDir};
-            isAuto = true;
-          }
-        else if lib.pathExists (../hosts + "/${machine.hostname}") then
-          {
-            value = ../hosts/${machine.hostname};
-            isAuto = true;
-          }
-        else
-          {
-            value = ../hosts/default;
-            isAuto = true;
-          };
-    in
-    {
-      machine = machine // {
-        configDir = resolved.value;
-      };
-      autoResolve = autoResolve // {
-        configDir = resolved.isAuto;
-      };
-    };
+  autoResolveConfigDir = mkResolver "configDir" (
+    machine:
+    if lib.isPath machine.configDir then
+      {
+        value = machine.configDir;
+        isAuto = false;
+      }
+    else if lib.isString machine.configDir then
+      {
+        value = ../hosts/${machine.configDir};
+        isAuto = true;
+      }
+    else if lib.pathExists (../hosts + "/${machine.hostname}") then
+      {
+        value = ../hosts/${machine.hostname};
+        isAuto = true;
+      }
+    else
+      {
+        value = ../hosts/default;
+        isAuto = true;
+      }
+  );
 
-  autoResolveNixosConfig =
-    { machine, autoResolve }:
-    let
-      resolved =
-        if machine.nixosConfig != null then
-          {
-            value = machine.nixosConfig;
-            isAuto = false;
-          }
-        else
-          {
-            value = machine.configDir + "/configuration.nix";
-            isAuto = true;
-          };
-    in
-    {
-      machine = machine // {
-        nixosConfig = resolved.value;
-      };
-      autoResolve = autoResolve // {
-        nixosConfig = resolved.isAuto;
-      };
-    };
+  autoResolveNixosConfig = mkResolver "nixosConfig" (
+    machine:
+    if machine.nixosConfig != null then
+      {
+        value = machine.nixosConfig;
+        isAuto = false;
+      }
+    else
+      {
+        value = machine.configDir + "/configuration.nix";
+        isAuto = true;
+      }
+  );
 
-  autoResolveHomeManagerConfig =
-    { machine, autoResolve }:
-    let
-      resolved =
-        if machine.homeManager == false then
-          {
-            value = null;
-            isAuto = false;
-          }
-        else if machine.homeManagerConfig != null then
-          {
-            value = machine.homeManagerConfig;
-            isAuto = false;
-          }
-        else if machine.homeManager == true || lib.pathExists (machine.configDir + "/home.nix") then
-          {
-            value = machine.configDir + "/home.nix";
-            isAuto = true;
-          }
-        else
-          {
-            value = null;
-            isAuto = false;
-          };
-    in
-    {
-      machine = machine // {
-        homeManagerConfig = resolved.value;
-      };
-      autoResolve = autoResolve // {
-        homeManagerConfig = resolved.isAuto;
-      };
-    };
+  autoResolveHomeManagerConfig = mkResolver "homeManagerConfig" (
+    machine:
+    if machine.homeManager == false then
+      {
+        value = null;
+        isAuto = false;
+      }
+    else if machine.homeManagerConfig != null then
+      {
+        value = machine.homeManagerConfig;
+        isAuto = false;
+      }
+    else if machine.homeManager == true || lib.pathExists (machine.configDir + "/home.nix") then
+      {
+        value = machine.configDir + "/home.nix";
+        isAuto = true;
+      }
+    else
+      {
+        value = null;
+        isAuto = false;
+      }
+  );
 
   showConfigurations =
     machines:
     let
       resolvedConfigs = autoResolveConfigurations machines;
-      machineConfigs = lib.mapAttrs (key: resolved: resolved.machine) resolvedConfigs;
+      machineConfigs = resolveMachineConfigs machines;
 
-      names = lib.attrNames machineConfigs;
-      hostnames = lib.mapAttrsToList (_: machine: machine.hostname) machineConfigs;
-      aliases = lib.concatLists (lib.mapAttrsToList (_: machine: machine.aliases) machineConfigs);
+      nameCollections = collectAllNames machineConfigs;
+      names = nameCollections.names;
+      hostnames = nameCollections.hostnames;
+      aliases = nameCollections.aliases;
 
       pathInfo = lib.mapAttrs (
         name: resolved:
@@ -320,22 +301,21 @@ let
         pathInfo
         ;
 
-      totalNames = lib.length (
-        lib.concatLists [
-          names
-          hostnames
-          aliases
-        ]
-      );
+      totalNames = lib.length (names ++ nameCollections.allAliases);
     };
+
+  withNormalization = f: machines: f (lib.mapAttrs (_: machine: defaultMachine // machine) machines);
+
+  test = {
+    validateMachines = withNormalization validateMachines;
+    showConfigurations = withNormalization showConfigurations;
+  };
+
 in
 {
   inherit
     buildConfigurations
-    mkDefaults
-    mkMachine
-    showConfigurations
-    validateMachines
-    autoResolveConfigurations
+    mkMachineDefaults
+    test
     ;
 }
