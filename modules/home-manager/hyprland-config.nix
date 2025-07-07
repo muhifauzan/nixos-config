@@ -14,14 +14,16 @@
       "$webBrowser" = "firefox";
       "$fileManager" = "dolphin";
       "$menu" = "rofi -show drun";
-      "$claudeDesktop" = "claude-desktop";
+      "$ai" = "claude-desktop";
       "$musicPlayer" = "spotify";
 
       exec-once = [
+        "nm-applet &"
+        "waybar & hyprpaper &"
         "$editor"
         "$terminal"
-        "nm-applet &"
-        "waybar & hyprpaper & $webBrowser"
+        "$webBrowser"
+        "$ai"
       ];
 
       env = [
@@ -145,14 +147,17 @@
         "$mainMod, A, exec, $menu"
         "$mainMod, T, exec, $terminal"
         "$mainMod, D, exec, $editor"
-        "$mainMod, I, exec, $claudeDesktop"
+        "$mainMod, I, exec, $ai"
         "$mainMod, B, exec, $webBrowser"
         "$mainMod, E, exec, $fileManager"
         "$mainMod, U, exec, $musicPlayer"
 
         "$mainMod, P, pseudo,"
 
+        "$mainMod, RETURN, fullscreen, 1"
+        "$mainMod SHIFT, RETURN, fullscreen,"
         "$mainMod, F, togglefloating,"
+
         "$mainMod, J, togglesplit,"
         "$mainMod, K, togglesplit,"
 
