@@ -53,8 +53,17 @@
       defaultMachine = utils.mkDefaults { inherit system user inputs; };
 
       machines = {
+        workstation = utils.mkMachine defaultMachine {
+          hostname = "panthera";
+          aliases = [ "pc" ];
+        };
+
         laptop = utils.mkMachine defaultMachine {
           hostname = "acinonyx";
+        };
+
+        server = utils.mkMachine defaultMachine {
+          homeManager = false;
         };
       };
 
