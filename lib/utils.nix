@@ -81,22 +81,15 @@ let
 
         (lib.optionalAttrs (homeManagerConfig != null) {
           imports = [ inputs.home-manager.nixosModules.home-manager ];
-        })
 
-        {
-          nix.settings.experimental-features = [
-            "nix-command"
-            "flakes"
-          ];
-
-          home-manager = lib.mkIf (homeManagerConfig != null) {
+          home-manager = {
             backupFileExtension = "bak";
             useGlobalPkgs = true;
             useUserPackages = true;
             users.${machine.user.username} = homeManagerConfig;
             extraSpecialArgs = { inherit machine inputs; };
           };
-        }
+        })
       ];
     };
 
