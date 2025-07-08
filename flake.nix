@@ -39,7 +39,7 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }@inputs:
+    { nixpkgs, ... }@inputs:
     let
       utils = import ./lib/utils.nix { lib = nixpkgs.lib; };
       system = "x86_64-linux";
