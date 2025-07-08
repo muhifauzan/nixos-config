@@ -1,6 +1,14 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  machine,
+  ...
+}:
 
 let
+  inherit (lib) mkMerge mkOrder;
+  inherit (machine) hostname;
+
   gruvboxRainbowPreset = pkgs.fetchurl {
     url = "https://raw.githubusercontent.com/starship/starship/refs/tags/v1.23.0/docs/public/presets/toml/gruvbox-rainbow.toml";
     sha256 = "sha256-AwdWRDPt9MH5+bwQNbqvLgs+dTKjGctci1XhDn8XXGo=";
@@ -46,10 +54,21 @@ in
 
         completionInit = '''';
 
-        initContent = lib.mkOrder 1000 ''
-          autoload -U compinit && compinit -u
-          zstyle ':completion:*' menu select
-        '';
+        initContent =
+          let
+            init = mkOrder 500 ''
+              export HOSTNAME=${hostname}
+            '';
+
+            config = mkOrder 1000 ''
+              autoload -U compinit && compinit -u
+              zstyle ':completion:*' menu select
+            '';
+          in
+          mkMerge [
+            init
+            config
+          ];
       };
 
       starship = {
