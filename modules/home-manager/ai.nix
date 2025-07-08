@@ -1,12 +1,12 @@
-{ machine, inputs, ... }:
+{ pkgs, inputs, ... }:
 
 let
-  inherit (machine) system;
+  claudeDesktopPackages = inputs.claude-desktop.packages.${pkgs.system};
 in
 {
   config = {
     home.packages = [
-      inputs.claude-desktop.packages.${system}.claude-desktop-with-fhs
+      claudeDesktopPackages.claude-desktop-with-fhs
     ];
   };
 }

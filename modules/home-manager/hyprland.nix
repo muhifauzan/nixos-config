@@ -1,14 +1,8 @@
-{
-  pkgs,
-  machine,
-  inputs,
-  ...
-}:
+{ pkgs, inputs, ... }:
 
 let
-  inherit (machine) system;
-  hyprlandPackages = inputs.hyprland.packages.${system};
-  hyprlandPlugins = inputs.hyprland-plugins.packages.${system};
+  hyprlandPackages = inputs.hyprland.packages.${pkgs.system};
+  hyprlandPlugins = inputs.hyprland-plugins.packages.${pkgs.system};
 in
 {
   imports = [

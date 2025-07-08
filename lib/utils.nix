@@ -68,16 +68,18 @@ let
       user,
       nixosConfig,
       inputs,
-      homeManagerConfig ? null,
+      homeManagerConfig,
     }:
     let
-      machine = { inherit system hostname user; };
+      machine = { inherit hostname user; };
     in
     lib.nixosSystem {
       specialArgs = { inherit machine inputs; };
 
       modules = [
         nixosConfig
+
+        { nixpkgs.hostPlatform = system; }
 
         (lib.optionalAttrs (homeManagerConfig != null) {
           imports = [ inputs.home-manager.nixosModules.home-manager ];
@@ -86,7 +88,7 @@ let
             backupFileExtension = "bak";
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.${machine.user.username} = homeManagerConfig;
+            users.${user.username} = homeManagerConfig;
             extraSpecialArgs = { inherit machine inputs; };
           };
         })
