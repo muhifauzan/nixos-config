@@ -97,7 +97,11 @@ in
   modules.essential-packages.enable = true;
   modules.extra-packages.enable = true;
 
-  modules.dev.nix.enable = true;
+  modules.dev = {
+    nix.enable = true;
+    node.enable = true;
+    python.enable = true;
+  };
 
   modules.spotify.enable = true;
 }

@@ -13,5 +13,6 @@
     ./etc-hosts.nix
     ./hyprland.nix
     ./packages.nix
+    ./nix-ld.nix
   ];
 }

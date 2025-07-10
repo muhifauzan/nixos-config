@@ -13,7 +13,11 @@ in
       archive-packages.enable = mkEnableOption "archive utility packages";
       extra-packages.enable = mkEnableOption "extra packages";
 
-      dev.nix.enable = mkEnableOption "nix development";
+      dev = {
+        nix.enable = mkEnableOption "nix development";
+        python.enable = mkEnableOption "python development";
+        node.enable = mkEnableOption "node development";
+      };
 
       spotify.enable = mkEnableOption "Spotify";
     };
