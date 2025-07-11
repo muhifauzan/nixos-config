@@ -94,14 +94,57 @@ in
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
-  modules.essential-packages.enable = true;
-  modules.extra-packages.enable = true;
+  modules = {
+    monitors = [
+      {
+        name = "eDP-1";
+        primary = true;
+        width = 2880;
+        height = 1800;
+        refreshRate = 90;
+        position = "0x0";
+        scale = 1.5;
 
-  modules.dev = {
-    nix.enable = true;
-    node.enable = true;
-    python.enable = true;
+        hyprland = {
+          workspace = "main";
+        };
+      }
+
+      {
+        name = "DP-4";
+        width = 3440;
+        height = 1440;
+        refreshRate = 144;
+        position = "auto";
+        scale = 1;
+
+        hyprland = {
+          workspace = "workspace";
+          vrr = 1;
+        };
+      }
+    ];
+
+    # hyprland.workspaces = [
+    #   {
+    #     name = "main";
+    #     rules = "";
+    #   }
+    #   {
+    #     name = "workspace";
+    #     rules = "";
+    #   }
+    # ];
+
+    essential-packages.enable = true;
+    extra-packages.enable = true;
+
+    dev = {
+      nix.enable = true;
+      node.enable = true;
+      python.enable = true;
+    };
+
+    spotify.enable = true;
   };
-
-  modules.spotify.enable = true;
 }

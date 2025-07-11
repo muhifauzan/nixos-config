@@ -1,6 +1,8 @@
-{ lib, ... }:
+{ lib }:
 
 let
+  inherit (lib) filter;
+
   defaultMachine = {
     # Required
     system = null;
@@ -74,9 +76,10 @@ let
     }:
     let
       machine = { inherit hostname user; };
+      libs = import ./. { inherit lib; };
     in
     lib.nixosSystem {
-      specialArgs = { inherit inputs machine; };
+      specialArgs = { inherit inputs machine libs; };
 
       modules = [
         nixosConfig
@@ -90,7 +93,7 @@ let
             backupFileExtension = "bak";
             useGlobalPkgs = true;
             useUserPackages = true;
-            extraSpecialArgs = { inherit machine inputs; };
+            extraSpecialArgs = { inherit machine inputs libs; };
 
             users.${user.username} = {
               imports = [ homeManagerConfig ] ++ extraHomeManagerModules;
@@ -306,18 +309,27 @@ let
       totalNames = lib.length (names ++ nameCollections.allAliases);
     };
 
+  getEnabledMonitors = monitors: filter (m: !m.disabled) monitors;
+
+  orUnless = fallback: value: if value != false then value else fallback;
+  orIfNull = fallback: value: if value != null then value else fallback;
+  orIfEmpty = fallback: value: if value != [ ] then value else fallback;
+
   withNormalization = f: machines: f (lib.mapAttrs (_: machine: defaultMachine // machine) machines);
 
   test = {
     validateMachines = withNormalization validateMachines;
     showConfigurations = withNormalization showConfigurations;
   };
-
 in
 {
   inherit
     buildConfigurations
+    getEnabledMonitors
     mkMachineDefaults
+    orUnless
+    orIfNull
+    orIfEmpty
     test
     ;
 }

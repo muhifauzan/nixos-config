@@ -5,6 +5,10 @@ let
   cfg = config.modules;
 in
 {
+  imports = [
+    ./options
+  ];
+
   options = {
     modules = {
       essential-packages.enable = mkEnableOption "essential packages";

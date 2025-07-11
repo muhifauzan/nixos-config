@@ -19,6 +19,9 @@
           },
           "home-manager": {
             "expr": "(builtins.getFlake (toString ./.)).nixosConfigurations.${builtins.getEnv \"HOSTNAME\"}.options.home-manager.users.type.getSubOptions []"
+          },
+          "monitors": {
+            "expr": "(builtins.getFlake (toString ./.)).nixosConfigurations.${builtins.getEnv \"HOSTNAME\"}.options.modules.monitors.type.getSubOptions []"
           }
         }
       }

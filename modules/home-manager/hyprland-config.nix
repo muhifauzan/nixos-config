@@ -1,13 +1,24 @@
-{ ... }:
+{ osConfig, libs, ... }:
 
+let
+  inherit (libs.utils) orIfEmpty;
+  inherit (libs.hyprland.utils) getEnabledMonitors getWorkspaceAssignments toHyprlandMonitor;
+
+  cfg = osConfig.modules;
+
+  enabledMonitors = getEnabledMonitors cfg.monitors;
+  monitors = map toHyprlandMonitor enabledMonitors;
+  workspaces = getWorkspaceAssignments enabledMonitors;
+in
 {
   config = {
     wayland.windowManager.hyprland.settings = {
-      "monitor" = ",highres@highrr,auto,auto";
-      # "monitor" = [
-      #   "eDP1, 2880x1800@90,  auto, auto"
-      #   "DP-4, 3440x1440@144, auto, auto"
-      # ];
+      # Monitor and workspace config generated from modules.monitors
+
+      "monitor" = orIfEmpty [ ", preferred, auto, auto" ] monitors;
+      "workspace" = orIfEmpty [ ] workspaces;
+
+      # Rest of Hyprland config
 
       "$terminal" = "kitty";
       "$editor" = "zeditor";
@@ -30,14 +41,6 @@
         "XCURSOR_SIZE,24"
         "HYPRCURSOR_SIZE,24"
       ];
-
-      # ecosystem {
-      #   enforce_permissions = 1
-      # }
-
-      # permission = /usr/(bin|local/bin)/grim, screencopy, allow
-      # permission = /usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland, screencopy, allow
-      # permission = /usr/(bin|local/bin)/hyprpm, plugin, allow
 
       general = {
         gaps_in = 5;

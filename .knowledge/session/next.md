@@ -1,49 +1,49 @@
-# Next Actions - Specific Priorities
+# Next Actions - Ready for Multi-System Integration
 
-## 🎯 **IMMEDIATE PRIORITY**: Complete Progressive Detail Implementation
+## ✅ **COMPLETED**: Position Architecture Redesign ✅
 
-### Current Session Tasks
-- [x] **Update session-start.md**: Modify procedures to reference new progressive detail structure
-- [x] **Test new structure**: Validate that the 3-file approach works for handoffs
-- [x] **Document benefits**: Record improvements in workflow effectiveness
-  - ✅ Handoff time reduced from 45-60 seconds to ~20 seconds
-  - ✅ Clear separation: narrative overview vs detailed tracking vs action items
-  - ✅ Maintained 3-file resilience for interruption safety
-  - ✅ Reduced cognitive load - each file has focused purpose
-- [x] **Migrate content**: Archive old session files after successful testing
-  - ✅ Old session files moved to session-old/ for reference
-  - ✅ New progressive detail structure now live in session/
+### Major Achievement - Generic + System-Specific Design 🎆
+- [✅] **Generic Base Position**: Cleaned up for cross-system compatibility (SDDM/X11)
+- [✅] **Hyprland Extensions**: All advanced features preserved in hyprland.position
+- [✅] **Bug Fixes**: Fixed enabled/disabled logic, proper null handling
+- [✅] **Validation**: All flake checks pass - ready for production
+- [✅] **Documentation**: All important Hyprland details preserved and properly organized
 
-### Implementation Steps - COMPLETE
-- [x] **Modify session-start.md** references:
-  - ✅ Change "Read session/context.md" → "Read session/current.md" 
-  - ✅ Change "Read session/progress.md" → "Read session/completed.md"
-  - ✅ Change "Read session/next-steps.md" → "Read session/next.md"
-- [x] **Test handoff speed**: Time how long it takes to understand current status
-- [x] **Validate resilience**: Confirm 3-file structure maintains interruption safety
+### Architecture Benefits
+📝 **Generic Position Format** (Cross-System Compatible)
+```nix
+# Base position - works with SDDM, X11, basic Wayland
+position = "1920x0";     # Coordinates
+position = "auto";       # Automatic placement
+```
 
-## 🚀 **POST-IMPLEMENTATION**: Ready for Production Use
+🔧 **Hyprland Extensions** (Advanced Features)
+```nix
+# Hyprland-specific overrides with preserved details
+hyprland.position = "auto-center-right";  # Advanced auto positioning
+hyprland.vrr = 1;                         # Variable refresh rate
+hyprland.workspace = "main";              # Workspace assignment
+```
 
-### Technical System Status
-- **Monitor API**: ✅ Production ready, no technical work needed
-- **Flake Evaluation**: ✅ Working perfectly, circular dependency fixed
-- **Extension System**: ✅ Fully functional with type-safe Hyprland options
+## 🚀 **READY FOR NEXT PRIORITIES**
 
-### Optional Enhancements (No urgency)
-- [ ] **LSP Testing**: Verify autocompletion works in Zed editor
-- [ ] **Build Testing**: Run nixos-rebuild dry-build validation  
-- [ ] **Usage Documentation**: Create examples of monitor configuration usage
+### Immediate Opportunities
+- [ ] **SDDM Integration**: Use generic position format for login screen configuration
+- [ ] **Sway Support**: Add sway.position extension using coordinate pairs ("1920 0")
+- [ ] **Xorg Support**: Add xorg.position extension with xrandr-compatible format
+- [ ] **Multi-System Testing**: Validate position architecture across different display systems
 
-### Archive Maintenance - COMPLETE SUCCESS
-- [x] **Archive Cleanup**: Complete success - 42 → 14 files (67% reduction, well under threshold)
-  - ✅ Removed cleanup-temp folder (9 files)
-  - ✅ Removed old-* architecture files (10 files)
-  - ✅ Removed *COMPLETE* session feedback (5 files)
-  - ✅ Removed test-* files (5 files)
-  - ✅ Removed *FAILED*/*CONSOLIDATED* experiments (2 files)
-  - ✅ Removed session-old directory (3 files)
-  - ✅ Retained valuable reference materials (14 essential files)
-  - ✅ Perfect organization achieved
+### Technical Integration Options
+- [ ] **SDDM Xsetup Generation**: Automatically generate `/usr/share/sddm/scripts/Xsetup` from monitor config
+- [ ] **Sway Config Integration**: Transform generic position to Sway output configuration
+- [ ] **X11 Xorg.conf Support**: Generate monitor sections for Xorg configuration
+- [ ] **Plasma/KWin Integration**: Support kwinoutputconfig.json generation
+
+### System Enhancement
+- [ ] **Position Validation**: Add validation for different coordinate systems per system
+- [ ] **Auto-Detection**: Automatically determine appropriate position format based on display system
+- [ ] **Migration Tools**: Help convert between different position formats
+- [ ] **Documentation**: Create comprehensive guide for multi-system monitor configuration
 
 ---
-*All primary work complete - see current.md for narrative, completed.md for detailed tracking*
+*Position architecture complete - monitor system now ready for multi-system integration with preserved Hyprland advanced features*

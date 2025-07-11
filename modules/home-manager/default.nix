@@ -4,8 +4,8 @@
   imports = [
     ./shell.nix
     ./container.nix
-    ./hyprland.nix
     ./packages.nix
+    ./hyprland.nix
     ./git.nix
     ./dev.nix
     ./editor.nix
