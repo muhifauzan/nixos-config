@@ -16,7 +16,6 @@ in
       home.packages = with pkgs; [
         # System monitoring (modern alternatives)
         btop
-        neofetch
 
         # Nix ecosystem tools
         nix-tree # Nix dependency explorer
@@ -48,6 +47,10 @@ in
       };
     }
     (mkIf cfg.extra-packages.enable {
+      home.packages = with pkgs; [
+        fastfetch
+      ];
+
       programs = {
         bat = {
           enable = true;
