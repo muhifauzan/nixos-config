@@ -1,4 +1,4 @@
-# Sway Monitor Extension  
+# Sway Monitor Extension
 { lib, ... }:
 
 {
@@ -13,7 +13,7 @@
               example = "1";
               description = ''
                 Default workspace to assign to this monitor in Sway.
-                
+
                 Can be a workspace number or name.
               '';
             };
@@ -31,7 +31,7 @@
               default = true;
               description = ''
                 Enable DPMS (Display Power Management Signaling) for this monitor.
-                
+
                 When enabled, the monitor will enter power saving modes
                 when not in use.
               '';
@@ -43,17 +43,24 @@
               example = 5;
               description = ''
                 Maximum render time in milliseconds for this monitor.
-                
+
                 Can help with VRR displays to reduce input latency.
               '';
             };
 
             subpixel = lib.mkOption {
-              type = lib.types.enum ["unknown" "none" "horizontal_rgb" "horizontal_bgr" "vertical_rgb" "vertical_bgr"];
+              type = lib.types.enum [
+                "unknown"
+                "none"
+                "horizontal_rgb"
+                "horizontal_bgr"
+                "vertical_rgb"
+                "vertical_bgr"
+              ];
               default = "unknown";
               description = ''
                 Subpixel layout for this monitor.
-                
+
                 Affects text rendering quality on LCD displays.
               '';
             };
@@ -64,16 +71,16 @@
               example = "/path/to/wallpaper.jpg";
               description = ''
                 Background image path for this monitor.
-                
+
                 Sets the wallpaper for this specific monitor in Sway.
               '';
             };
           };
         };
-        default = {};
+        default = { };
         description = ''
           Sway-specific monitor options.
-          
+
           These options are automatically available when the Sway
           extension is loaded, providing type-safe configuration for
           Sway's output features.

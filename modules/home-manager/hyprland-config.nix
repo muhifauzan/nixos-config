@@ -1,13 +1,104 @@
-{ ... }:
+{
+  config,
+  lib,
+  osConfig,
+  ...
+}:
 
+let
+  inherit (lib)
+    map
+    filter
+    optional
+    concatStringsSep
+    ;
+  # Access NixOS config via osConfig
+  cfg = osConfig.modules;
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # MONITOR TRANSFORMATION - INLINE IN HYPRLAND CONFIG
+  # Transform modules.monitors data into Hyprland format right here where it's used
+  # ═══════════════════════════════════════════════════════════════════════════════
+
+  # Transform a single monitor config to Hyprland monitor string
+  toHyprlandString =
+    monitor:
+    let
+      # Base monitor specification
+      baseSpec = if builtins.isString monitor.name then monitor.name else "desc:${monitor.name.desc}";
+
+      # Resolution and refresh rate
+      resolution = "${toString monitor.width}x${toString monitor.height}@${toString monitor.refreshRate}";
+
+      # Position and scale
+      position = monitor.position;
+      scale = toString monitor.scale;
+
+      # Hyprland-specific options
+      hyprlandOpts = monitor.hyprland or { };
+
+      # Build optional parameters
+      optionalParams =
+        [ ]
+        ++ optional (hyprlandOpts.vrr or 0 != 0) "vrr,${toString hyprlandOpts.vrr}"
+        ++ optional (hyprlandOpts.transform or 0 != 0) "transform,${toString hyprlandOpts.transform}"
+        ++ optional (hyprlandOpts.bitdepth or null != null) "bitdepth,${toString hyprlandOpts.bitdepth}"
+        ++ optional (hyprlandOpts.adaptiveSync or false) "adaptivesync"
+        ++ optional (hyprlandOpts.mirror or null != null) "mirror,${hyprlandOpts.mirror}";
+
+      # Join optional parameters
+      optionalStr = if optionalParams == [ ] then "" else ", ${concatStringsSep ", " optionalParams}";
+
+    in
+    "${baseSpec}, ${resolution}, ${position}, ${scale}${optionalStr}";
+
+  # Get workspace assignments for Hyprland
+  getWorkspaceAssignments =
+    monitors:
+    map (
+      monitor:
+      let
+        workspaceName = monitor.hyprland.workspace;
+        monitorName = if builtins.isString monitor.name then monitor.name else "desc:${monitor.name.desc}";
+      in
+      "workspace = ${workspaceName}, monitor:${monitorName}"
+    ) (filter (m: m.enabled && (m.hyprland.workspace or null) != null) monitors);
+
+  # Filter enabled monitors
+  getEnabled = monitors: filter (m: m.enabled) monitors;
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # APPLY TRANSFORMATION TO modules.monitors DATA
+  # ═══════════════════════════════════════════════════════════════════════════════
+
+  enabledMonitors = getEnabled cfg.monitors;
+  hyprlandMonitors = map toHyprlandString enabledMonitors;
+  workspaceAssignments = getWorkspaceAssignments cfg.monitors;
+
+in
 {
   config = {
     wayland.windowManager.hyprland.settings = {
-      "monitor" = ",highres@highrr,auto,auto";
-      # "monitor" = [
-      #   "eDP1, 2880x1800@90,  auto, auto"
-      #   "DP-4, 3440x1440@144, auto, auto"
-      # ];
+      # ═══════════════════════════════════════════════════════════════════════════════
+      # MONITOR CONFIGURATION - GENERATED FROM modules.monitors
+      # Transformation happens inline here where it's used
+      # ═══════════════════════════════════════════════════════════════════════════════
+
+      "monitor" =
+        if cfg.monitors != [ ] then
+          hyprlandMonitors
+        else
+          [
+            # Fallback if no modules.monitors defined
+            "desc:Lenovo Group Limited, 2880x1800@90, 0x0, 1.5"
+            "desc:Xiaomi Corporation Mi Monitor, 3440x1440@144, auto, 1, vrr, 1"
+          ];
+
+      "workspace" = if workspaceAssignments != [ ] then workspaceAssignments else [ ];
+
+      # ═══════════════════════════════════════════════════════════════════════════════
+      # REST OF HYPRLAND CONFIGURATION
+      # ═══════════════════════════════════════════════════════════════════════════════
 
       "$terminal" = "kitty";
       "$editor" = "zeditor";
@@ -30,14 +121,6 @@
         "XCURSOR_SIZE,24"
         "HYPRCURSOR_SIZE,24"
       ];
-
-      # ecosystem {
-      #   enforce_permissions = 1
-      # }
-
-      # permission = /usr/(bin|local/bin)/grim, screencopy, allow
-      # permission = /usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland, screencopy, allow
-      # permission = /usr/(bin|local/bin)/hyprpm, plugin, allow
 
       general = {
         gaps_in = 5;
