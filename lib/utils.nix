@@ -69,6 +69,8 @@ let
       nixosConfig,
       inputs,
       homeManagerConfig,
+      extraModules,
+      extraHomeManagerModules,
     }:
     let
       machine = { inherit hostname user; };
@@ -88,11 +90,14 @@ let
             backupFileExtension = "bak";
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.${user.username} = homeManagerConfig;
             extraSpecialArgs = { inherit machine inputs; };
+
+            users.${user.username} = {
+              imports = [ homeManagerConfig ] ++ extraHomeManagerModules;
+            };
           };
         })
-      ];
+      ] ++ extraModules;
     };
 
   collectAllNames =
@@ -116,13 +121,15 @@ let
     machines: lib.mapAttrs (_: resolved: resolved.machine) (autoResolveConfigurations machines);
 
   buildConfigurations =
-    machines:
+    machines: extraModules: extraHomeManagerModules:
     let
       machineConfigs = resolveMachineConfigs machines;
 
       configs = lib.mapAttrs (
         name: machine:
         buildConfiguration {
+          inherit extraModules extraHomeManagerModules;
+
           system = machine.system;
           hostname = machine.hostname;
           user = machine.user;

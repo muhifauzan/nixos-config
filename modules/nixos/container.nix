@@ -1,26 +1,39 @@
-{ machine, ... }:
+{
+  pkgs,
+  lib,
+  machine,
+  ...
+}:
 
 let
+  inherit (lib) makeBinPath;
   inherit (machine) user;
 in
 {
   config = {
-    virtualisation.podman.autoPrune.enable = true;
+    virtualisation = {
+      quadlet.enable = true;
+
+      podman = {
+        enable = true;
+      };
+
+      containers.storage.settings = {
+        storage = {
+          driver = "overlay";
+          runroot = "/run/containers/storage";
+          graphroot = "/var/lib/containers/storage";
+        };
+      };
+    };
+
+    systemd.user.extraConfig = ''
+      DefaultEnvironment="PATH=/run/current-system/sw/bin:/run/wrappers/bin:${makeBinPath [ pkgs.bash ]}"
+    '';
 
     users.users.${user.username} = {
-      subUidRanges = [
-        {
-          startUid = 100000;
-          count = 65536;
-        }
-      ];
-
-      subGidRanges = [
-        {
-          startGid = 100000;
-          count = 65536;
-        }
-      ];
+      autoSubUidGidRange = true;
+      linger = true;
     };
   };
 }

@@ -31,6 +31,8 @@
       };
     };
 
+    quadlet-nix.url = "github:SEIAROTg/quadlet-nix";
+
     claude-desktop = {
       url = "github:k3d3/claude-desktop-linux-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,7 +41,7 @@
   };
 
   outputs =
-    { nixpkgs, ... }@inputs:
+    { nixpkgs, quadlet-nix, ... }@inputs:
     let
       utils = import ./lib/utils.nix { lib = nixpkgs.lib; };
       system = "x86_64-linux";
@@ -67,9 +69,11 @@
         };
       };
 
+      extraModules = [ quadlet-nix.nixosModules.quadlet ];
+      extraHomeManagerModules = [ quadlet-nix.homeManagerModules.quadlet ];
     in
     {
-      nixosConfigurations = utils.buildConfigurations machines;
+      nixosConfigurations = utils.buildConfigurations machines extraModules extraHomeManagerModules;
       debug = { inherit utils machines; };
     };
 }
