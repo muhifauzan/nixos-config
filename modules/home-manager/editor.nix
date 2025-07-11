@@ -15,6 +15,8 @@
         nixd
         nixfmt-rfc-style
       ];
+
+      package = pkgs.zed-editor-fhs;
     };
 
     nixGL.vulkan.enable = true;
