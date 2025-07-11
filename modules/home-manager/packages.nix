@@ -6,7 +6,7 @@
 }:
 
 let
-  inherit (lib) mkMerge mkIf;
+  inherit (lib) mkIf mkMerge;
   cfg = osConfig.modules;
 in
 {

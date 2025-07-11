@@ -7,7 +7,7 @@
 }:
 
 let
-  inherit (lib) mkMerge mkIf;
+  inherit (lib) mkIf mkMerge;
   inherit (machine) user;
 
   cfg = config.modules;

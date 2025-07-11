@@ -30,7 +30,7 @@ let
           aliases = machine.aliases;
 
           mkRecord = recordName: source: {
-            inherit source hostname;
+            inherit hostname source;
 
             name = recordName;
             machine = name;
@@ -76,7 +76,7 @@ let
       machine = { inherit hostname user; };
     in
     lib.nixosSystem {
-      specialArgs = { inherit machine inputs; };
+      specialArgs = { inherit inputs machine; };
 
       modules = [
         nixosConfig
@@ -290,16 +290,16 @@ let
           autoResolve = resolved.autoResolve;
         in
         {
-          inherit machine autoResolve;
+          inherit autoResolve machine;
         }
       ) resolvedConfigs;
 
     in
     {
       inherit
-        names
-        hostnames
         aliases
+        hostnames
+        names
         pathInfo
         ;
 

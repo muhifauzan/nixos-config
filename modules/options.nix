@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  inherit (lib) mkEnableOption mkDefault;
+  inherit (lib) mkDefault mkEnableOption;
   cfg = config.modules;
 in
 {

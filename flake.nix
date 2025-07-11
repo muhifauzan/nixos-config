@@ -5,6 +5,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/x86_64-linux";
 
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
@@ -41,10 +46,16 @@
   };
 
   outputs =
-    { nixpkgs, quadlet-nix, ... }@inputs:
+    {
+      nixpkgs,
+      treefmt-nix,
+      quadlet-nix,
+      ...
+    }@inputs:
     let
       utils = import ./lib/utils.nix { lib = nixpkgs.lib; };
       system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
 
       user = rec {
         username = "muhifauzan";
@@ -52,7 +63,7 @@
         name = "Muhammad Hilmy Fauzan";
       };
 
-      mkMachine = utils.mkMachineDefaults { inherit system user inputs; };
+      mkMachine = utils.mkMachineDefaults { inherit inputs system user; };
 
       machines = {
         workstation = mkMachine {
@@ -74,6 +85,13 @@
     in
     {
       nixosConfigurations = utils.buildConfigurations machines extraModules extraHomeManagerModules;
-      debug = { inherit utils machines; };
+
+      formatter.${system} = treefmt-nix.lib.mkWrapper pkgs {
+        projectRootFile = "flake.nix";
+        programs.nixfmt.enable = true;
+        settings.nixfmt.rejects = [ ".knowledge" ];
+      };
+
+      debug = { inherit machines utils; };
     };
 }
