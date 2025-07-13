@@ -15,7 +15,5 @@ in
         };
       };
     };
-
-    systemd.user.startServices = "sd-switch";
   };
 }

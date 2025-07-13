@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./systemd.nix
     ./shell.nix
     ./container.nix
     ./packages.nix
