@@ -139,6 +139,8 @@ in
     essential-packages.enable = true;
     extra-packages.enable = true;
 
+    hyprland.enable = true;
+
     dev = {
       nix.enable = true;
       node.enable = true;

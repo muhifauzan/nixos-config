@@ -20,9 +20,6 @@ in
         # Use the one from flake
         package = hyprlandPackages.hyprland;
       };
-
-      # For controlling backlight via Light
-      light.enable = true;
     };
 
     services = {

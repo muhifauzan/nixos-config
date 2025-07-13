@@ -17,10 +17,12 @@ in
       archive-packages.enable = mkEnableOption "archive utility packages";
       extra-packages.enable = mkEnableOption "extra packages";
 
+      hyprland.enable = mkEnableOption "Hyprland WM";
+
       dev = {
-        nix.enable = mkEnableOption "nix development";
-        python.enable = mkEnableOption "python development";
-        node.enable = mkEnableOption "node development";
+        nix.enable = mkEnableOption "Nix development";
+        python.enable = mkEnableOption "Python development";
+        node.enable = mkEnableOption "Node development";
       };
 
       spotify.enable = mkEnableOption "Spotify";

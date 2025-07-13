@@ -37,6 +37,7 @@ in
         defaultEditor = true;
       };
     })
+
     (mkIf cfg.network-packages.enable {
       users.users.${user.username}.packages = with pkgs; [
         curl
@@ -46,6 +47,7 @@ in
         wget
       ];
     })
+
     (mkIf cfg.archive-packages.enable {
       users.users.${user.username}.packages = with pkgs; [
         p7zip
@@ -53,6 +55,7 @@ in
         zip
       ];
     })
+
     (mkIf cfg.extra-packages.enable {
       users.users.${user.username}.packages = with pkgs; [
         jq
@@ -60,6 +63,15 @@ in
         yq-go
       ];
     })
+
+    (mkIf cfg.hyprland.enable {
+      environment.systemPackages = with pkgs; [
+        brightnessctl
+        playerctl
+        wireplumber
+      ];
+    })
+
     (mkIf cfg.spotify.enable {
       users.users.${user.username}.packages = [ pkgs.spotify ];
 

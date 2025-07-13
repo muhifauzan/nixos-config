@@ -46,6 +46,7 @@ in
         ripgrep-all.enable = true;
       };
     }
+
     (mkIf cfg.extra-packages.enable {
       home.packages = with pkgs; [
         fastfetch
