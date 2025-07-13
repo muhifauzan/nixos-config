@@ -89,7 +89,8 @@
       formatter.${system} = treefmt-nix.lib.mkWrapper pkgs {
         projectRootFile = "flake.nix";
         programs.nixfmt.enable = true;
-        settings.nixfmt.rejects = [ ".knowledge" ];
+        settings.global.includes = [ "*.nix" ];
+        settings.global.excludes = [ ".knowledge/*" ];
       };
 
       debug = { inherit machines utils; };
