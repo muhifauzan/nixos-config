@@ -143,6 +143,21 @@ in
 
       "$mainMod" = "SUPER";
 
+      # Bind flags
+      # c -> click, will trigger on release of a key or button as long as the mouse cursor stays inside binds:drag_threshold.
+      # d -> has description, will allow you to write a description for your bind.
+      # e -> repeat, will repeat when held.
+      # g -> drag, will trigger on release of a key or button as long as the mouse cursor moves outside binds:drag_threshold.
+      # i -> ignore mods, will ignore modifiers.
+      # l -> locked, will also work when an input inhibitor (e.g. a lockscreen) is active.
+      # m -> mouse, see below.
+      # n -> non-consuming, key/mouse events will be passed to the active window in addition to triggering the dispatcher.
+      # o -> longPress, will trigger on long press of a key.
+      # p -> bypasses the app's requests to inhibit keybinds.
+      # r -> release, will trigger on release of a key.
+      # s -> separate, will arbitrarily combine keys between each mod/key, see [Keysym combos](#keysym-combos) above.
+      # t -> transparent, cannot be shadowed by other binds.
+
       bind = [
         "$mainMod, M, exit,"
         "$mainMod, Q, killactive,"
@@ -203,28 +218,33 @@ in
         "$mainMod, mouse_up, workspace, e-1"
       ];
 
+      bindl = [
+        ", XF86AudioPlay, exec, playerctl --player=spotify,%any play-pause"
+        ", XF86AudioPause, exec, playerctl --player=spotify,%any play-pause"
+        ", XF86AudioStop, exec, playerctl --all-players stop"
+
+        ", XF86AudioNext, exec, playerctl --player=spotify,%any next"
+        ", XF86AudioPrev, exec, playerctl --player=spotify,%any previous"
+
+        ", XF86AudioForward, exec, playerctl --player=spotify,%any position 10+"
+        ", XF86AudioRewind, exec, playerctl --player=spotify,%any position 10-"
+
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+      ];
+
+      bindel = [
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume --limit=1 @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+
+        ", XF86MonBrightnessUp, exec, brightnessctl --exponent=4 --min-value=2 set 5%+"
+        ", XF86MonBrightnessDown, exec, brightnessctl --exponent=4 --min-value=2 set 5%-"
+      ];
+
       bindm = [
         # Move/resize windows with mainMod + LMB/RMB and dragging
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
-      ];
-
-      bindel = [
-        # Laptop multimedia keys for volume and LCD brightness
-        ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-        ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-        ",XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+"
-        ",XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-"
-      ];
-
-      bindl = [
-        # Requires playerctl
-        ", XF86AudioNext, exec, playerctl next"
-        ", XF86AudioPause, exec, playerctl play-pause"
-        ", XF86AudioPlay, exec, playerctl play-pause"
-        ", XF86AudioPrev, exec, playerctl previous"
       ];
 
       windowrule = [
