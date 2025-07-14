@@ -16,7 +16,7 @@
         nixfmt-rfc-style
       ];
 
-      package = pkgs.zed-editor-fhs;
+      package = pkgs.zed-editor;
     };
 
     nixGL.vulkan.enable = true;
