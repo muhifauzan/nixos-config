@@ -11,6 +11,8 @@ in
 
   options = {
     modules = {
+      xdg.enable = mkEnableOption "XDG management";
+
       essential-packages.enable = mkEnableOption "essential packages";
       system-packages.enable = mkEnableOption "system utility packages";
       network-packages.enable = mkEnableOption "network utility packages";
@@ -30,12 +32,14 @@ in
   };
 
   config = {
-    modules.essential-packages.enable = mkDefault true;
-    modules.network-packages.enable = mkDefault cfg.extra-packages.enable;
-    modules.archive-packages.enable = mkDefault cfg.extra-packages.enable;
+    modules = {
+      xdg.enable = mkDefault true;
 
-    modules.system-packages.enable = mkDefault (
-      cfg.essential-packages.enable || cfg.extra-packages.enable
-    );
+      essential-packages.enable = mkDefault true;
+      network-packages.enable = mkDefault cfg.extra-packages.enable;
+      archive-packages.enable = mkDefault cfg.extra-packages.enable;
+
+      system-packages.enable = mkDefault (cfg.essential-packages.enable || cfg.extra-packages.enable);
+    };
   };
 }

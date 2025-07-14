@@ -1,5 +1,8 @@
-{ ... }:
+{ config, ... }:
 
+let
+  xdg = config.xdg;
+in
 {
   config = {
     services.podman = {
@@ -14,9 +17,9 @@
           # which I don't know where, which change the rootless podman SUID/SGID mapping
           # which cause error with layer something which can only be solved with
           # podman system migrate
-          graphroot = "$XDG_DATA_HOME/containers/storage";
+          graphroot = "${xdg.dataHome}/containers/storage";
 
-          runroot = "$XDG_RUNTIME_DIR/containers/storage";
+          runroot = "/run/user/1000/containers/storage";
         };
       };
     };
