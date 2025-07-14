@@ -6,7 +6,7 @@ in
 {
   config = {
     home.packages = [
-      claudeDesktopPackages.claude-desktop-with-fhs
+      claudeDesktopPackages.claude-desktop
     ];
   };
 }
