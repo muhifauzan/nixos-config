@@ -1,10 +1,12 @@
-{ machine, ... }:
+{ pkgs, machine, ... }:
 
 let
   inherit (machine) user;
 in
 {
   config = {
+    environment.systemPackages = [ pkgs.podman-compose ];
+
     virtualisation = {
       podman.enable = true;
       quadlet.enable = true;
