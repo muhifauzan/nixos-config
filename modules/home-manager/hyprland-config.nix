@@ -13,33 +13,36 @@ in
 {
   config = {
     wayland.windowManager.hyprland.settings = {
-      # Monitor and workspace config generated from modules.monitors
+      monitor = orIfEmpty [ ", preferred, auto, auto" ] monitors;
+      workspace = orIfEmpty [ ] workspaces;
 
-      "monitor" = orIfEmpty [ ", preferred, auto, auto" ] monitors;
-      "workspace" = orIfEmpty [ ] workspaces;
+      windowrule = [
+        "suppressevent maximize, class:.*"
+        "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+      ];
 
-      # Rest of Hyprland config
-
+      "$menu" = "rofi -show drun";
+      "$fileManager" = "dolphin";
       "$terminal" = "kitty";
       "$editor" = "zeditor";
-      "$webBrowser" = "firefox";
-      "$fileManager" = "dolphin";
-      "$menu" = "rofi -show drun";
       "$ai" = "claude-desktop";
+      "$webBrowser" = "firefox";
       "$musicPlayer" = "spotify";
-
-      exec-once = [
-        "nm-applet &"
-        "waybar & hyprpaper &"
-        "$editor"
-        "$terminal"
-        "$webBrowser"
-        "$ai"
-      ];
 
       env = [
         "XCURSOR_SIZE,24"
         "HYPRCURSOR_SIZE,24"
+      ];
+
+      exec-once = [
+        "nm-applet &"
+        "waybar &"
+        "hyprpaper &"
+        "$editor"
+        "$terminal"
+        "$ai"
+        "$webBrowser"
+        "$musicPlayer"
       ];
 
       general = {
@@ -106,13 +109,9 @@ in
       };
 
       master = {
-        mfact = 0.382; # Inverse golden ratio
-        # mfact = 0.414; # Silver ratio
-        # mfact = 0.45; # More usable sides
-        # mfact = 0.5; # Simple 50/50
-        # mfact = 0.618; # Golden ratio
+        mfact = 0.5;
         new_status = "slave";
-        orientation = "left";
+        orientation = "center";
         slave_count_for_center_master = 2;
         center_master_fallback = "left";
       };
@@ -149,8 +148,6 @@ in
         sensitivity = -0.5;
       };
 
-      "$mainMod" = "SUPER";
-
       # Bind flags
       # c -> click, will trigger on release of a key or button as long as the mouse cursor stays inside binds:drag_threshold.
       # d -> has description, will allow you to write a description for your bind.
@@ -166,75 +163,88 @@ in
       # s -> separate, will arbitrarily combine keys between each mod/key, see [Keysym combos](#keysym-combos) above.
       # t -> transparent, cannot be shadowed by other binds.
 
+      "$mod" = "SUPER";
+      "$mainMod" = "$mod";
+      "$ctrlMod" = "$mod CTRL";
+      "$altMod" = "$mod ALT";
+      "$shiftMod" = "$mod SHIFT";
+      "$altCtrlMod" = "$ctrlMod ALT";
+      "$shiftCtrlMod" = "$ctrlMod SHIFT";
+      "$shiftAltMod" = "$altMod SHIFT";
+      "$hyperMod" = "$mod CTRL ALT SHIFT";
+
       bind = [
-        "$mainMod, Q, killactive,"
-        "$mainMod CTRL ALT SHIFT, Q, exit,"
+        "$hyperMod, Q, exit,"
+
+        "$mainMod, W, killactive,"
+        "$mainMod, Q, forcekillactive,"
 
         "$mainMod, A, exec, $menu"
+        "$mainMod, E, exec, $fileManager"
         "$mainMod, T, exec, $terminal"
         "$mainMod, D, exec, $editor"
         "$mainMod, I, exec, $ai"
         "$mainMod, B, exec, $webBrowser"
-        "$mainMod, E, exec, $fileManager"
         "$mainMod, U, exec, $musicPlayer"
 
         "$mainMod, RETURN, fullscreen, 1"
-        "$mainMod SHIFT, RETURN, fullscreen,"
-        "$mainMod, F, togglefloating,"
+        "$altMod, RETURN, fullscreen, 0"
 
-        # Move focus with mainMod + arrow keys
+        "$mainMod, F, togglefloating, active"
+
         "$mainMod, left, movefocus, l"
-        "$mainMod, right, movefocus, r"
-        "$mainMod, up, movefocus, u"
         "$mainMod, down, movefocus, d"
+        "$mainMod, up, movefocus, u"
+        "$mainMod, right, movefocus, r"
 
         # Switch workspaces with mainMod + [0-9]
-        "$mainMod, 1, workspace, 1"
-        "$mainMod, 2, workspace, 2"
-        "$mainMod, 3, workspace, 3"
-        "$mainMod, 4, workspace, 4"
-        "$mainMod, 5, workspace, 5"
-        "$mainMod, 6, workspace, 6"
-        "$mainMod, 7, workspace, 7"
-        "$mainMod, 8, workspace, 8"
-        "$mainMod, 9, workspace, 9"
-        "$mainMod, 0, workspace, 10"
+        "$shiftAltMod, 1, workspace, 1"
+        "$shiftAltMod, 2, workspace, 2"
+        "$shiftAltMod, 3, workspace, 3"
+        "$shiftAltMod, 4, workspace, 4"
+        "$shiftAltMod, 5, workspace, 5"
+        "$shiftAltMod, 6, workspace, 6"
+        "$shiftAltMod, 7, workspace, 7"
+        "$shiftAltMod, 8, workspace, 8"
+        "$shiftAltMod, 9, workspace, 9"
+        "$shiftAltMod, 0, workspace, 10"
 
         # Move active window to a workspace with mainMod + SHIFT + [0-9]
-        "$mainMod SHIFT, 1, movetoworkspace, 1"
-        "$mainMod SHIFT, 2, movetoworkspace, 2"
-        "$mainMod SHIFT, 3, movetoworkspace, 3"
-        "$mainMod SHIFT, 4, movetoworkspace, 4"
-        "$mainMod SHIFT, 5, movetoworkspace, 5"
-        "$mainMod SHIFT, 6, movetoworkspace, 6"
-        "$mainMod SHIFT, 7, movetoworkspace, 7"
-        "$mainMod SHIFT, 8, movetoworkspace, 8"
-        "$mainMod SHIFT, 9, movetoworkspace, 9"
-        "$mainMod SHIFT, 0, movetoworkspace, 10"
+        # "$shiftCtrlMod, 1, movetoworkspace, 1"
+        # "$shiftCtrlMod, 2, movetoworkspace, 2"
+        # "$shiftCtrlMod, 3, movetoworkspace, 3"
+        # "$shiftCtrlMod, 4, movetoworkspace, 4"
+        # "$shiftCtrlMod, 5, movetoworkspace, 5"
+        # "$shiftCtrlMod, 6, movetoworkspace, 6"
+        # "$shiftCtrlMod, 7, movetoworkspace, 7"
+        # "$shiftCtrlMod, 8, movetoworkspace, 8"
+        # "$shiftCtrlMod, 9, movetoworkspace, 9"
+        # "$shiftCtrlMod, 0, movetoworkspace, 10"
 
         # Example special workspace (scratchpad)
-        "$mainMod, S, togglespecialworkspace, magic"
-        "$mainMod SHIFT, S, movetoworkspace, special:magic"
+        "$mainMod, S, togglespecialworkspace, terminal"
+        # "$shiftCtrlMod, S, movetoworkspace, special:terminal"
 
         # Scroll through existing workspaces with mainMod + scroll
-        "$mainMod, mouse_down, workspace, e+1"
-        "$mainMod, mouse_up, workspace, e-1"
+        # "$mainMod, mouse_down, workspace, e+1"
+        # "$mainMod, mouse_up, workspace, e-1"
 
         #########################
         # Master layout binds
 
-        "$mainMod, SPACE, layoutmsg, swapwithmaster master"
-        "$mainMod ALT, SPACE, layoutmsg, focusmaster master"
+        "$ctrlMod, RETURN, layoutmsg, focusmaster master"
 
-        # "$mainMod, SPACE, layoutmsg, orientationleft"
-        # "$mainMod, SPACE, layoutmsg, orientationcenter"
-        "$mainMod CTRL ALT, ENTER, layoutmsg, orientationcycle left center"
+        "$shiftMod, RETURN, layoutmsg, swapwithmaster master"
 
-        "$mainMod CTRL ALT, 1, layoutmsg, mfact exact 0.382" # Inverse golden ratio
-        "$mainMod CTRL ALT, 2, layoutmsg, mfact exact 0.414" # Silver ratio
-        "$mainMod CTRL ALT, 3, layoutmsg, mfact exact 0.45" # More usable sides
-        "$mainMod CTRL ALT, 4, layoutmsg, mfact exact 0.5" # Simple 50/50
-        "$mainMod CTRL ALT, 5, layoutmsg, mfact exact 0.618" # Golden ratio
+        "$altMod, H, layoutmsg, orientationleft"
+        "$altMod, J, layoutmsg, orientationcenter"
+        "$altMod, SPACE, layoutmsg, orientationcycle left center"
+
+        "$altMod, 1, layoutmsg, mfact exact 0.382" # Inverse golden ratio
+        "$altMod, 2, layoutmsg, mfact exact 0.414" # Silver ratio
+        "$altMod, 3, layoutmsg, mfact exact 0.45" # More usable sides
+        "$altMod, 4, layoutmsg, mfact exact 0.5" # Simple 50/50
+        "$altMod, 5, layoutmsg, mfact exact 0.618" # Golden ratio
 
         # Master layout binds end
         #########################
@@ -244,8 +254,8 @@ in
 
         "$mainMod, P, pseudo,"
 
-        "$mainMod, J, layoutmsg, togglesplit"
-        "$mainMod, K, layoutmsg, togglesplit"
+        "$altMod, J, layoutmsg, togglesplit"
+        "$altMod, K, layoutmsg, togglesplit"
 
         # Dwindle layout binds end
         ##########################
@@ -259,30 +269,24 @@ in
         ", XF86AudioNext, exec, playerctl --player=spotify,%any next"
         ", XF86AudioPrev, exec, playerctl --player=spotify,%any previous"
 
-        ", XF86AudioForward, exec, playerctl --player=spotify,%any position 10+"
-        ", XF86AudioRewind, exec, playerctl --player=spotify,%any position 10-"
+        ", XF86AudioForward, exec, playerctl --player=spotify,%any position 5+"
+        ", XF86AudioRewind, exec, playerctl --player=spotify,%any position 5-"
 
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
       ];
 
       bindel = [
-        ", XF86AudioRaiseVolume, exec, wpctl set-volume --limit=1 @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume --limit=1.0 @DEFAULT_AUDIO_SINK@ 5%+"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
 
-        ", XF86MonBrightnessUp, exec, brightnessctl --exponent=4 --min-value=2 set 5%+"
-        ", XF86MonBrightnessDown, exec, brightnessctl --exponent=4 --min-value=2 set 5%-"
+        ", XF86MonBrightnessUp, exec, brightnessctl set 5%+"
+        ", XF86MonBrightnessDown, exec, brightnessctl --min-value=3 set 5%-"
       ];
 
       bindm = [
-        # Move/resize windows with mainMod + LMB/RMB and dragging
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
-      ];
-
-      windowrule = [
-        "suppressevent maximize, class:.*"
-        "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
       ];
     };
   };
