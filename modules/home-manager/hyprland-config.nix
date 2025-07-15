@@ -50,7 +50,7 @@ in
         "col.inactive_border" = "rgba(595959aa)";
         resize_on_border = false;
         allow_tearing = false;
-        layout = "dwindle;";
+        layout = "master";
       };
 
       decoration = {
@@ -105,13 +105,21 @@ in
         ];
       };
 
+      master = {
+        mfact = 0.382; # Inverse golden ratio
+        # mfact = 0.414; # Silver ratio
+        # mfact = 0.45; # More usable sides
+        # mfact = 0.5; # Simple 50/50
+        # mfact = 0.618; # Golden ratio
+        new_status = "slave";
+        orientation = "left";
+        slave_count_for_center_master = 2;
+        center_master_fallback = "left";
+      };
+
       dwindle = {
         pseudotile = true;
         preserve_split = true;
-      };
-
-      master = {
-        new_status = "master";
       };
 
       misc = {
@@ -159,8 +167,8 @@ in
       # t -> transparent, cannot be shadowed by other binds.
 
       bind = [
-        "$mainMod, M, exit,"
         "$mainMod, Q, killactive,"
+        "$mainMod CTRL ALT SHIFT, Q, exit,"
 
         "$mainMod, A, exec, $menu"
         "$mainMod, T, exec, $terminal"
@@ -170,14 +178,9 @@ in
         "$mainMod, E, exec, $fileManager"
         "$mainMod, U, exec, $musicPlayer"
 
-        "$mainMod, P, pseudo,"
-
         "$mainMod, RETURN, fullscreen, 1"
         "$mainMod SHIFT, RETURN, fullscreen,"
         "$mainMod, F, togglefloating,"
-
-        "$mainMod, J, togglesplit,"
-        "$mainMod, K, togglesplit,"
 
         # Move focus with mainMod + arrow keys
         "$mainMod, left, movefocus, l"
@@ -216,6 +219,36 @@ in
         # Scroll through existing workspaces with mainMod + scroll
         "$mainMod, mouse_down, workspace, e+1"
         "$mainMod, mouse_up, workspace, e-1"
+
+        #########################
+        # Master layout binds
+
+        "$mainMod, SPACE, layoutmsg, swapwithmaster master"
+        "$mainMod ALT, SPACE, layoutmsg, focusmaster master"
+
+        # "$mainMod, SPACE, layoutmsg, orientationleft"
+        # "$mainMod, SPACE, layoutmsg, orientationcenter"
+        "$mainMod CTRL ALT, ENTER, layoutmsg, orientationcycle left center"
+
+        "$mainMod CTRL ALT, 1, layoutmsg, mfact exact 0.382" # Inverse golden ratio
+        "$mainMod CTRL ALT, 2, layoutmsg, mfact exact 0.414" # Silver ratio
+        "$mainMod CTRL ALT, 3, layoutmsg, mfact exact 0.45" # More usable sides
+        "$mainMod CTRL ALT, 4, layoutmsg, mfact exact 0.5" # Simple 50/50
+        "$mainMod CTRL ALT, 5, layoutmsg, mfact exact 0.618" # Golden ratio
+
+        # Master layout binds end
+        #########################
+
+        ##########################
+        # Dwindle layout binds
+
+        "$mainMod, P, pseudo,"
+
+        "$mainMod, J, layoutmsg, togglesplit"
+        "$mainMod, K, layoutmsg, togglesplit"
+
+        # Dwindle layout binds end
+        ##########################
       ];
 
       bindl = [
