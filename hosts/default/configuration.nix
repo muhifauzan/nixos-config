@@ -147,6 +147,8 @@ in
       python.enable = true;
     };
 
+    ai.enable = true;
+
     spotify.enable = true;
   };
 }

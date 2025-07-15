@@ -27,6 +27,8 @@ in
         node.enable = mkEnableOption "Node development";
       };
 
+      ai.enable = mkEnableOption "AI tooling";
+
       spotify.enable = mkEnableOption "Spotify";
     };
   };
