@@ -81,6 +81,32 @@ in
                 description = ''Mirror the specified monitor to this monitor (e.g., `"eDP-1"`)'';
               };
 
+              colour = mkOption {
+                type = types.enum [
+                  "auto"
+                  "srgb"
+                  "wide"
+                  "edid"
+                  "hdr"
+                  "hdredid"
+                ];
+
+                default = "auto";
+                example = "wide";
+
+                description = ''
+                  Color management presets.
+
+                  ### Options
+                  - `"auto"`    : sRGB for 8bpc, wide for 10bpc if supported (recommended)
+                  - `"srgb"`    : sRGB primaries (default)
+                  - `"wide"`    : Wide color gamut, BT2020 primaries
+                  - `"edid"`    : Primaries from edid (known to be inaccurate)
+                  - `"hdr"`     : Wide color gamut and HDR PQ transfer function (experimental)
+                  - `"hdredid"` : Same as hdr with edid primaries (experimental)
+                '';
+              };
+
               vrr = mkOption {
                 type = types.enum [
                   0

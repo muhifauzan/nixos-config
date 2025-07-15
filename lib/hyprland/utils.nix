@@ -22,7 +22,8 @@ let
       optionalArgs =
         optional (hyprlandOpts.rotate != 0) "transform, ${toString hyprlandOpts.rotate}"
         ++ optional (hyprlandOpts.mirror != null) "mirror, ${hyprlandOpts.mirror}"
-        ++ optional (hyprlandOpts.vrr != 0) "vrr, ${toString hyprlandOpts.vrr}";
+        ++ optional (hyprlandOpts.vrr != 0) "vrr, ${toString hyprlandOpts.vrr}"
+        ++ optional (hyprlandOpts.colour != "auto") "cm, ${toString hyprlandOpts.colour}";
 
       extraArgs = concatStringsSep ", " optionalArgs;
     in
