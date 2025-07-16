@@ -38,6 +38,8 @@ in
 
         # JSON/YAML tools
         fx # Interactive JSON viewer
+
+        bitwarden-desktop
       ];
 
       programs = {
