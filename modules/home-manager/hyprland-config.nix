@@ -6,9 +6,14 @@ let
 
   cfg = osConfig.modules;
 
+  extraWorkspace = [
+    "special:terminal, on-created-empty:kitty"
+  ];
+
   enabledMonitors = getEnabledMonitors cfg.monitors;
   monitors = map toHyprlandMonitor enabledMonitors;
-  workspaces = getWorkspaceAssignments enabledMonitors;
+  monitorWorkspaces = getWorkspaceAssignments enabledMonitors;
+  workspaces = monitorWorkspaces ++ extraWorkspace;
 in
 {
   config = {
@@ -197,19 +202,32 @@ in
         "$mainMod, up, movefocus, u"
         "$mainMod, right, movefocus, r"
 
-        # Switch workspaces with mainMod + [0-9]
-        "$shiftAltMod, 1, workspace, 1"
-        "$shiftAltMod, 2, workspace, 2"
-        "$shiftAltMod, 3, workspace, 3"
-        "$shiftAltMod, 4, workspace, 4"
-        "$shiftAltMod, 5, workspace, 5"
-        "$shiftAltMod, 6, workspace, 6"
-        "$shiftAltMod, 7, workspace, 7"
-        "$shiftAltMod, 8, workspace, 8"
-        "$shiftAltMod, 9, workspace, 9"
-        "$shiftAltMod, 0, workspace, 10"
+        #########################
+        # Switch workspace to
 
-        # Move active window to a workspace with mainMod + SHIFT + [0-9]
+        "$shiftAltMod, 1, workspace, name:main"
+        "$shiftAltMod, 2, workspace, name:workspace"
+        "$shiftAltMod, 3, workspace, name:other"
+        # "$shiftAltMod, 1, workspace, 1"
+        # "$shiftAltMod, 2, workspace, 2"
+        # "$shiftAltMod, 3, workspace, 3"
+        # "$shiftAltMod, 4, workspace, 4"
+        # "$shiftAltMod, 5, workspace, 5"
+        # "$shiftAltMod, 6, workspace, 6"
+        # "$shiftAltMod, 7, workspace, 7"
+        # "$shiftAltMod, 8, workspace, 8"
+        # "$shiftAltMod, 9, workspace, 9"
+        # "$shiftAltMod, 0, workspace, 10"
+
+        # Switch workspace to end
+        #########################
+
+        ####################
+        # Move window to
+
+        "$shiftCtrlMod, 1, movetoworkspace, name:main"
+        "$shiftCtrlMod, 2, movetoworkspace, name:workspace"
+        "$shiftCtrlMod, 3, movetoworkspace, name:other"
         # "$shiftCtrlMod, 1, movetoworkspace, 1"
         # "$shiftCtrlMod, 2, movetoworkspace, 2"
         # "$shiftCtrlMod, 3, movetoworkspace, 3"
@@ -221,9 +239,17 @@ in
         # "$shiftCtrlMod, 9, movetoworkspace, 9"
         # "$shiftCtrlMod, 0, movetoworkspace, 10"
 
-        # Example special workspace (scratchpad)
+        # Move window to end
+        ####################
+
+        ########################
+        # Special workspace
+
         "$mainMod, S, togglespecialworkspace, terminal"
-        # "$shiftCtrlMod, S, movetoworkspace, special:terminal"
+        "$shiftCtrlMod, S, movetoworkspace, special:terminal"
+
+        # Special workspaces end
+        ########################
 
         # Scroll through existing workspaces with mainMod + scroll
         # "$mainMod, mouse_down, workspace, e+1"
