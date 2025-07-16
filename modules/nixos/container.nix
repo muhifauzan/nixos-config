@@ -8,7 +8,11 @@ in
     environment.systemPackages = [ pkgs.podman-compose ];
 
     virtualisation = {
-      podman.enable = true;
+      podman = {
+        enable = true;
+        defaultNetwork.settings.dns_enabled = true;
+      };
+
       quadlet.enable = true;
 
       containers.storage.settings = {
