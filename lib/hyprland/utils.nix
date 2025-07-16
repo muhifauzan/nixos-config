@@ -37,7 +37,7 @@ let
 
   getWorkspaceAssignments =
     monitors:
-    map (m: "name:${m.hyprland.workspace}, monitor:${m.name}") (
+    map (m: "name:${m.hyprland.workspace}, monitor:${m.name}, default:true") (
       filter (m: m.hyprland.workspace != null) monitors
     );
 in
