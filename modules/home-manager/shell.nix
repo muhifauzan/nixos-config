@@ -8,16 +8,6 @@
 let
   inherit (lib) mkMerge mkOrder;
   inherit (machine) hostname;
-
-  gruvboxRainbowPreset = pkgs.fetchurl {
-    url = "https://raw.githubusercontent.com/starship/starship/refs/tags/v1.23.0/docs/public/presets/toml/gruvbox-rainbow.toml";
-    sha256 = "sha256-AwdWRDPt9MH5+bwQNbqvLgs+dTKjGctci1XhDn8XXGo=";
-  };
-
-  # catppuccinPowerlinePreset = pkgs.fetchurl {
-  #   url = "https://raw.githubusercontent.com/starship/starship/refs/tags/v1.23.0/docs/public/presets/toml/catppuccin-powerline.toml";
-  #   sha256 = "sha256-IV9+UREl+UMN1Lt4rcTrtajyfoWKSz7yz0xim8y5kkg=";
-  # };
 in
 {
   config = {
@@ -79,8 +69,7 @@ in
       starship = {
         enable = true;
         enableZshIntegration = true;
-        settings = builtins.fromTOML (builtins.readFile gruvboxRainbowPreset);
-        # settings = builtins.fromTOML (builtins.readFile catppuccinPowerlinePreset);
+        settings = builtins.fromTOML (builtins.readFile ./starship-settings.toml);
       };
     };
   };
