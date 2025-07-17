@@ -17,10 +17,12 @@ in
         nixfmt-tree
       ];
     })
+
     (mkIf cfg.dev.node.enable {
       home.packages = [ pkgs.nodejs ];
       programs.bun.enable = true;
     })
+
     (mkIf cfg.dev.python.enable {
       home.packages = [ pkgs.python3 ];
       programs.uv.enable = true;

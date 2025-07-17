@@ -169,6 +169,7 @@ let
       machine = machine // {
         ${key} = resolved.value;
       };
+
       autoResolve = autoResolve // {
         ${key} = resolved.isAuto;
       };
@@ -203,6 +204,7 @@ let
       machine = machine // {
         hostname = resolved.value;
       };
+
       autoResolve = {
         hostname = resolved.isAuto;
       };
@@ -290,6 +292,7 @@ let
             homeManagerConfig = resolved.machine.homeManagerConfig;
             configDir = resolved.machine.configDir;
           };
+
           autoResolve = resolved.autoResolve;
         in
         {

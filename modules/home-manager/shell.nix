@@ -30,22 +30,27 @@ in
             name = zsh-vi-mode.pname;
             src = zsh-vi-mode.src;
           }
+
           {
             name = zsh-syntax-highlighting.pname;
             src = zsh-syntax-highlighting.src;
           }
+
           {
             name = zsh-autosuggestions.pname;
             src = zsh-autosuggestions.src;
           }
+
           {
             name = zsh-completions.pname;
             src = zsh-completions.src;
           }
+
           {
             name = zsh-you-should-use.pname;
             src = zsh-you-should-use.src;
           }
+
           {
             name = zsh-z.pname;
             src = zsh-z.src;

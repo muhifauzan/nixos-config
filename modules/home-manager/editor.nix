@@ -20,7 +20,6 @@
     };
 
     nixGL.vulkan.enable = true;
-
     home.sessionVariables.VISUAL = "zeditor --new --wait";
   };
 }
