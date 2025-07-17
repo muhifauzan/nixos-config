@@ -1,3 +1,20 @@
-scratch.txt
+# devenv
+.devenv*
+devenv.local.nix
 
+# direnv
+.direnv
+
+# Private keys
+*.key
+
+# Local env
+**/.env
+.env.*
+!**/.env.example
+
+# Scratch files
+**/scratch.txt
+
+# Vim swap files
 *.swp

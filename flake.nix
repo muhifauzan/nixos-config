@@ -20,6 +20,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hyprland = {
       url = "github:hyprwm/Hyprland/v0.49.0";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -49,6 +54,7 @@
     {
       nixpkgs,
       treefmt-nix,
+      sops-nix,
       quadlet-nix,
       ...
     }@inputs:
@@ -60,6 +66,11 @@
       user = rec {
         username = "muhifauzan";
         homedir = "/home/${username}";
+        dataHome = "${homedir}/.local/share";
+        stateHome = "${homedir}/.local/state";
+        configHome = "${homedir}/.config";
+        cacheHome = "${homedir}/.cache";
+        runtimeDir = "/run/user/1000";
         name = "Muhammad Hilmy Fauzan";
       };
 
@@ -80,8 +91,15 @@
         };
       };
 
-      extraModules = [ quadlet-nix.nixosModules.quadlet ];
-      extraHomeManagerModules = [ quadlet-nix.homeManagerModules.quadlet ];
+      extraModules = [
+        sops-nix.nixosModules.sops
+        quadlet-nix.nixosModules.quadlet
+      ];
+
+      extraHomeManagerModules = [
+        sops-nix.homeManagerModules.sops
+        quadlet-nix.homeManagerModules.quadlet
+      ];
     in
     {
       nixosConfigurations = utils.buildConfigurations machines extraModules extraHomeManagerModules;

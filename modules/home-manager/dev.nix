@@ -11,6 +11,16 @@ let
 in
 {
   config = mkMerge [
+    {
+      home.packages = [ pkgs.devenv ];
+
+      programs.direnv = {
+        enable = true;
+        enableZshIntegration = true;
+        nix-direnv.enable = true;
+      };
+    }
+
     (mkIf cfg.dev.nix.enable {
       home.packages = with pkgs; [
         nixfmt-rfc-style

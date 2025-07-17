@@ -4,6 +4,7 @@
   imports = [
     ./..
     ./nix.nix
+    ./security.nix
     ./hardware.nix
     ./system.nix
     ./video.nix
