@@ -82,6 +82,7 @@ let
       specialArgs = { inherit inputs machine libs; };
 
       modules = [
+        inputs.nur.modules.nixos.default
         nixosConfig
 
         { nixpkgs.hostPlatform = system; }

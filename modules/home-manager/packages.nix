@@ -43,9 +43,34 @@ in
       ];
 
       programs = {
-        firefox.enable = true;
         ripgrep.enable = true;
         ripgrep-all.enable = true;
+
+        firefox = {
+          enable = true;
+
+          profiles.default = {
+            id = 0;
+            name = "default";
+            path = "default";
+            isDefault = true;
+
+            extensions = {
+              packages = with pkgs.nur.repos.rycee.firefox-addons; [
+                bitwarden
+                decentraleyes
+                languagetool
+                multi-account-containers
+                privacy-badger
+                search-by-image
+                simple-tab-groups
+                sponsorblock
+                ublock-origin
+                web-clipper-obsidian
+              ];
+            };
+          };
+        };
       };
     }
 

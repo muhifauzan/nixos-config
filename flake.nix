@@ -3,11 +3,22 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-lib.url = "github:nix-community/nixpkgs.lib";
     systems.url = "github:nix-systems/x86_64-linux";
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs-lib";
     };
 
     flake-utils = {
@@ -15,9 +26,13 @@
       inputs.systems.follows = "systems";
     };
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+    nur = {
+      url = "github:nix-community/NUR";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
     };
 
     sops-nix = {
@@ -25,10 +40,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    quadlet-nix.url = "github:SEIAROTg/quadlet-nix";
+
     hyprland = {
       url = "github:hyprwm/Hyprland/v0.49.0";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.systems.follows = "systems";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
     };
 
     hyprland-plugins = {
@@ -41,12 +61,13 @@
       };
     };
 
-    quadlet-nix.url = "github:SEIAROTg/quadlet-nix";
-
     claude-desktop = {
       url = "github:k3d3/claude-desktop-linux-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
     };
   };
 
