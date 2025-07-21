@@ -28,6 +28,14 @@ in
       ];
     })
 
+    (mkIf cfg.dev.elixir.enable {
+      home.packages = [ pkgs.elixir ];
+    })
+
+    (mkIf cfg.dev.elixir.phoenix.enable {
+      home.packages = [ pkgs.inotify-tools ];
+    })
+
     (mkIf cfg.dev.node.enable {
       home.packages = [ pkgs.nodejs ];
       programs.bun.enable = true;

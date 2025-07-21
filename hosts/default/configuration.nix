@@ -143,6 +143,12 @@ in
 
     dev = {
       nix.enable = true;
+
+      elixir = {
+        enable = true;
+        phoenix.enable = true;
+      };
+
       node.enable = true;
       python.enable = true;
     };

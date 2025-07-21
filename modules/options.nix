@@ -23,8 +23,10 @@ in
 
       dev = {
         nix.enable = mkEnableOption "Nix development";
-        python.enable = mkEnableOption "Python development";
+        elixir.enable = mkEnableOption "Elixir development";
+        elixir.phoenix.enable = mkEnableOption "Phoenix development";
         node.enable = mkEnableOption "Node development";
+        python.enable = mkEnableOption "Python development";
       };
 
       ai.enable = mkEnableOption "AI tooling";
@@ -42,6 +44,11 @@ in
       archive-packages.enable = mkDefault cfg.extra-packages.enable;
 
       system-packages.enable = mkDefault (cfg.essential-packages.enable || cfg.extra-packages.enable);
+
+      dev = {
+        nix.enable = mkDefault true;
+        elixir.enable = mkDefault cfg.dev.elixir.phoenix.enable;
+      };
     };
   };
 }
