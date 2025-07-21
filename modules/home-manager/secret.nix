@@ -36,7 +36,7 @@ in
   };
 
   # TODO: Make zsh options configurable
-  programs.zsh.initContent = mkOrder ''
+  programs.zsh.initContent = mkOrder 1500 ''
     source ${user.configHome}/sops-nix/load-secrets.sh
   '';
 }

@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./security.nix
+    ./secret.nix
     ./xdg.nix
     ./systemd.nix
     ./shell.nix
