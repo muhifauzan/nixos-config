@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   machine,
@@ -8,6 +9,8 @@
 let
   inherit (lib) mkOrder;
   inherit (machine) user;
+
+  cfg = osConfig.modules;
 in
 {
   sops = {
@@ -22,7 +25,7 @@ in
     };
   };
 
-  home.file.".config/sops-nix/load-secrets.sh" = {
+  home.file."${cfg.my.scriptHome}/sops-nix/load-secrets.sh" = {
     text = ''
       #!/usr/bin/env bash
       # export <SOME_ENV>=$(cat $SOPS_<SOME_ENV>_PATH 2>/dev/null || echo "")
@@ -37,6 +40,6 @@ in
 
   # TODO: Make zsh options configurable
   programs.zsh.initContent = mkOrder 1500 ''
-    source ${user.configHome}/sops-nix/load-secrets.sh
+    source ${cfg.my.scriptHome}/sops-nix/load-secrets.sh
   '';
 }
