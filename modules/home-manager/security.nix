@@ -1,6 +1,12 @@
-{ config, machine, ... }:
+{
+  config,
+  lib,
+  machine,
+  ...
+}:
 
 let
+  inherit (lib) mkOrder;
   inherit (machine) user;
 in
 {
@@ -19,18 +25,18 @@ in
   home.file.".config/sops-nix/load-secrets.sh" = {
     text = ''
       #!/usr/bin/env bash
-
-      export ANTHROPIC_API_KEY=$(cat "${config.sops.secrets.anthropic_api_key.path}" 2>/dev/null || echo "")
-      export OPENAI_API_KEY=$(cat "${config.sops.secrets.openai_api_key.path}" 2>/dev/null || echo "")
-      export ONEMAP_USERNAME=$(cat "${config.sops.secrets.onemap_username.path}" 2>/dev/null || echo "")
-      export ONEMAP_PASSWORD=$(cat "${config.sops.secrets.onemap_password.path}" 2>/dev/null || echo "")
+      # export <SOME_ENV>=$(cat $SOPS_<SOME_ENV>_PATH 2>/dev/null || echo "")
+      export SOPS_ANTHROPIC_API_KEY_PATH=${config.sops.secrets.anthropic_api_key.path}
+      export SOPS_OPENAI_API_KEY_PATH=${config.sops.secrets.openai_api_key.path}
+      export SOPS_ONEMAP_USERNAME_PATH=${config.sops.secrets.onemap_username.path}
+      export SOPS_ONEMAP_PASSWORD_PATH=${config.sops.secrets.onemap_password.path}
     '';
 
     executable = true;
   };
 
-  # TODO: Make zsh configurable
-  programs.zsh.initExtra = ''
+  # TODO: Make zsh options configurable
+  programs.zsh.initContent = mkOrder ''
     source ${user.configHome}/sops-nix/load-secrets.sh
   '';
 }
