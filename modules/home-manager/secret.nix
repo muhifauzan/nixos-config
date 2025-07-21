@@ -23,7 +23,7 @@ in
     };
   };
 
-  home.file."${cfg.my.scriptHome}/sops-nix/load-secrets.sh" = {
+  home.file."${cfg.my.scriptHome}/sops_nix/load_secrets.sh" = {
     text = ''
       #!/usr/bin/env bash
       export SOPS_ANTHROPIC_API_KEY_FILE=${config.sops.secrets.anthropic_api_key.path}
@@ -37,7 +37,7 @@ in
 
   # TODO: Make zsh options configurable
   programs.zsh.initContent = mkOrder 1500 ''
-    source ${cfg.my.scriptHome}/sops-nix/load-secrets.sh
+    source ${cfg.my.scriptHome}/sops_nix/load_secrets.sh
     # export <SOME_ENV>=$(cat "$SOPS_<SOME_ENV>_FILE" 2>/dev/null || echo "")
   '';
 }
