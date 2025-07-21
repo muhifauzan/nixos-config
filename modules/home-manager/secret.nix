@@ -2,20 +2,18 @@
   osConfig,
   config,
   lib,
-  machine,
   ...
 }:
 
 let
   inherit (lib) mkOrder;
-  inherit (machine) user;
 
   cfg = osConfig.modules;
 in
 {
   sops = {
     defaultSopsFile = ../../.secrets/secrets.home-manager.yaml;
-    age.keyFile = "${user.configHome}/age/home_manager.key";
+    age.keyFile = "${cfg.my.keyHome}/age/home_manager.key";
 
     secrets = {
       anthropic_api_key = { };

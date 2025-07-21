@@ -15,5 +15,10 @@ in
       type = types.str;
       default = "${cfg.my.home}/scripts";
     };
+
+    keyHome = mkOption {
+      type = types.str;
+      default = "${cfg.my.home}/keys";
+    };
   };
 }
