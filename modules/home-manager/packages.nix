@@ -52,7 +52,7 @@ in
           profiles.default = {
             id = 0;
             name = "default";
-            path = "default";
+            path = "92oz7e9w.default";
             isDefault = true;
 
             extensions = {
