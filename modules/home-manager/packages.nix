@@ -6,11 +6,10 @@
 }:
 
 let
-  inherit (lib) mkIf mkMerge;
   cfg = osConfig.modules;
 in
 {
-  config = mkMerge [
+  config = lib.mkMerge [
     {
       # User-specific packages for development and workflow
       home.packages = with pkgs; [
@@ -74,7 +73,7 @@ in
       };
     }
 
-    (mkIf cfg.extra-packages.enable {
+    (lib.mkIf cfg.extra-packages.enable {
       home.packages = with pkgs; [
         fastfetch
       ];

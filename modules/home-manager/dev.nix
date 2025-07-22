@@ -6,11 +6,10 @@
 }:
 
 let
-  inherit (lib) mkIf mkMerge;
   cfg = osConfig.modules;
 in
 {
-  config = mkMerge [
+  config = lib.mkMerge [
     {
       home.packages = [ pkgs.devenv ];
 
@@ -21,27 +20,27 @@ in
       };
     }
 
-    (mkIf cfg.dev.nix.enable {
+    (lib.mkIf cfg.dev.nix.enable {
       home.packages = with pkgs; [
         nixfmt-rfc-style
         nixfmt-tree
       ];
     })
 
-    (mkIf cfg.dev.elixir.enable {
+    (lib.mkIf cfg.dev.elixir.enable {
       home.packages = [ pkgs.elixir ];
     })
 
-    (mkIf cfg.dev.elixir.phoenix.enable {
+    (lib.mkIf cfg.dev.elixir.phoenix.enable {
       home.packages = [ pkgs.inotify-tools ];
     })
 
-    (mkIf cfg.dev.node.enable {
+    (lib.mkIf cfg.dev.node.enable {
       home.packages = [ pkgs.nodejs ];
       programs.bun.enable = true;
     })
 
-    (mkIf cfg.dev.python.enable {
+    (lib.mkIf cfg.dev.python.enable {
       home.packages = [ pkgs.python3 ];
       programs.uv.enable = true;
     })

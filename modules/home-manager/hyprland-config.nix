@@ -1,25 +1,30 @@
-{ osConfig, libs, ... }:
+{
+  osConfig,
+  lib,
+  libs,
+  ...
+}:
 
 let
-  inherit (libs.utils) orIfEmpty;
-  inherit (libs.hyprland.utils) getEnabledMonitors getWorkspaceAssignments toHyprlandMonitor;
+  inherit (libs) hyprland utils;
 
+  hypUtils = hyprland.utils;
   cfg = osConfig.modules;
 
   extraWorkspace = [
     "special:terminal, on-created-empty:kitty"
   ];
 
-  enabledMonitors = getEnabledMonitors cfg.monitors;
-  monitors = map toHyprlandMonitor enabledMonitors;
-  monitorWorkspaces = getWorkspaceAssignments enabledMonitors;
+  enabledMonitors = utils.getEnabledMonitors cfg.monitors;
+  monitors = lib.map hypUtils.toHyprlandMonitor enabledMonitors;
+  monitorWorkspaces = hypUtils.getWorkspaceAssignments enabledMonitors;
   workspaces = monitorWorkspaces ++ extraWorkspace;
 in
 {
   config = {
     wayland.windowManager.hyprland.settings = {
-      monitor = orIfEmpty [ ", preferred, auto, auto" ] monitors;
-      workspace = orIfEmpty [ ] workspaces;
+      monitor = utils.orIfEmpty [ ", preferred, auto, auto" ] monitors;
+      workspace = utils.orIfEmpty [ ] workspaces;
 
       windowrule = [
         "suppressevent maximize, class:.*"

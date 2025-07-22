@@ -1,11 +1,10 @@
 { config, lib, ... }:
 
 let
-  inherit (lib) mkIf;
   cfg = config.modules;
 in
 {
-  config = mkIf cfg.isAmdCpu {
+  config = lib.mkIf cfg.isAmdCpu {
     hardware.cpu.amd.updateMicrocode = true;
 
     boot = {

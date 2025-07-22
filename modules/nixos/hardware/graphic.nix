@@ -6,7 +6,6 @@
 }:
 
 let
-  inherit (lib) optionals;
   cfg = config.modules;
 in
 {
@@ -17,7 +16,7 @@ in
 
   environment.systemPackages =
     with pkgs;
-    optionals cfg.extra-packages.enable [
+    lib.optionals cfg.extra-packages.enable [
       # Mesa utilities, glxinfo, glxgears, es2_info, es2gears
       mesa-demos
 

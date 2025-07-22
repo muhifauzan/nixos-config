@@ -1,8 +1,6 @@
 { lib }:
 
 let
-  inherit (lib) filter;
-
   defaultMachine = {
     # Required
     system = null;
@@ -313,7 +311,7 @@ let
       totalNames = lib.length (names ++ nameCollections.allAliases);
     };
 
-  getEnabledMonitors = monitors: filter (m: !m.disabled) monitors;
+  getEnabledMonitors = monitors: lib.filter (m: !m.disabled) monitors;
 
   orUnless = fallback: value: if value != false then value else fallback;
   orIfNull = fallback: value: if value != null then value else fallback;

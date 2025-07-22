@@ -6,7 +6,6 @@
 }:
 
 let
-  inherit (lib) optionals;
   cfg = config.modules;
 in
 {
@@ -30,7 +29,7 @@ in
   };
 
   # VA-API utilities, vainfo, vaapi-fits
-  environment.systemPackages = optionals cfg.extra-packages.enable [ pkgs.libva-utils ];
+  environment.systemPackages = lib.optionals cfg.extra-packages.enable [ pkgs.libva-utils ];
 
   environment.sessionVariables = lib.mkMerge [
     {

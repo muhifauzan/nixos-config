@@ -6,13 +6,11 @@
 }:
 
 let
-  inherit (lib) mkIf;
   inherit (machine) user;
-
   cfg = osConfig.modules;
 in
 {
-  config = mkIf cfg.xdg.enable {
+  config = lib.mkIf cfg.xdg.enable {
     xdg = {
       enable = true;
       dataHome = user.dataHome;

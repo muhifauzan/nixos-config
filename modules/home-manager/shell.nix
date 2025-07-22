@@ -6,7 +6,6 @@
 }:
 
 let
-  inherit (lib) mkMerge mkOrder;
   inherit (machine) hostname;
 in
 {
@@ -51,16 +50,16 @@ in
 
         initContent =
           let
-            init = mkOrder 500 ''
+            init = lib.mkOrder 500 ''
               export HOSTNAME=${hostname}
             '';
 
-            config = mkOrder 1000 ''
+            config = lib.mkOrder 1000 ''
               autoload -U compinit && compinit -u
               zstyle ':completion:*' menu select
             '';
           in
-          mkMerge [
+          lib.mkMerge [
             init
             config
           ];

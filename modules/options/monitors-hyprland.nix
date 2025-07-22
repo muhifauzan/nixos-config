@@ -1,25 +1,17 @@
 { lib, config, ... }:
 
 let
-  inherit (lib)
-    any
-    filter
-    length
-    mkOption
-    optionals
-    types
-    ;
-
+  inherit (lib) types;
   cfg = config.modules;
 in
 {
-  options.modules.monitors = mkOption {
+  options.modules.monitors = lib.mkOption {
     type = types.listOf (
       types.submodule {
-        options.hyprland = mkOption {
+        options.hyprland = lib.mkOption {
           type = types.submodule {
             options = {
-              position = mkOption {
+              position = lib.mkOption {
                 type = types.nullOr types.str;
                 default = null;
                 example = "auto-center-right";
@@ -46,7 +38,7 @@ in
                 '';
               };
 
-              rotate = mkOption {
+              rotate = lib.mkOption {
                 type = types.enum [
                   0
                   1
@@ -74,14 +66,14 @@ in
                 '';
               };
 
-              mirror = mkOption {
+              mirror = lib.mkOption {
                 type = types.nullOr types.str;
                 default = null;
                 example = "eDP-1";
                 description = ''Mirror the specified monitor to this monitor (e.g., `"eDP-1"`)'';
               };
 
-              colour = mkOption {
+              colour = lib.mkOption {
                 type = types.enum [
                   "auto"
                   "srgb"
@@ -107,7 +99,7 @@ in
                 '';
               };
 
-              vrr = mkOption {
+              vrr = lib.mkOption {
                 type = types.enum [
                   0
                   1
@@ -127,7 +119,7 @@ in
                 '';
               };
 
-              workspace = mkOption {
+              workspace = lib.mkOption {
                 type = types.nullOr types.str;
                 default = null;
                 example = "1";
@@ -149,24 +141,26 @@ in
     );
   };
 
-  config.assertions = optionals ((length cfg.monitors) != 0 && any (m: m ? hyprland) cfg.monitors) [
-    (
-      let
-        monitorsWithMirror = filter (m: m.hyprland.mirror != null) cfg.monitors;
-        invalidMirrors = filter (
-          m: !any (reference: m.hyprland.mirror == reference.name) cfg.monitors
-        ) monitorsWithMirror;
-      in
-      {
-        assertion = (length invalidMirrors) == 0;
-        message = ''
-          Monitor mirror targets must reference existing monitors.
+  config.assertions =
+    lib.optionals ((lib.length cfg.monitors) != 0 && lib.any (m: m ? hyprland) cfg.monitors)
+      [
+        (
+          let
+            monitorsWithMirror = lib.filter (m: m.hyprland.mirror != null) cfg.monitors;
+            invalidMirrors = lib.filter (
+              m: !lib.any (reference: m.hyprland.mirror == reference.name) cfg.monitors
+            ) monitorsWithMirror;
+          in
+          {
+            assertion = (lib.length invalidMirrors) == 0;
+            message = ''
+              Monitor mirror targets must reference existing monitors.
 
-          Invalid mirror configurations: ${
-            toString (map (m: "${m.name} -> ${m.hyprland.mirror}") invalidMirrors)
+              Invalid mirror configurations: ${
+                toString (map (m: "${m.name} -> ${m.hyprland.mirror}") invalidMirrors)
+              }
+            '';
           }
-        '';
-      }
-    )
-  ];
+        )
+      ];
 }

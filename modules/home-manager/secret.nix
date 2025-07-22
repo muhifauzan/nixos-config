@@ -6,8 +6,6 @@
 }:
 
 let
-  inherit (lib) mkOrder;
-
   cfg = osConfig.modules;
 in
 {
@@ -36,7 +34,7 @@ in
   };
 
   # TODO: Make zsh options configurable
-  programs.zsh.initContent = mkOrder 1500 ''
+  programs.zsh.initContent = lib.mkOrder 1500 ''
     source ${cfg.my.scriptHome}/sops_nix/load_secrets.sh
     # export <SOME_ENV>=$(cat "$SOPS_<SOME_ENV>_FILE" 2>/dev/null || echo "")
   '';

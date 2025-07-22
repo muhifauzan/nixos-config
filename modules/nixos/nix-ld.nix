@@ -6,29 +6,21 @@
 }:
 
 let
-  inherit (lib)
-    attrByPath
-    flatten
-    foldlAttrs
-    mkIf
-    optionals
-    ;
-
   cfg = config.modules;
 
   langLdLibs = {
     python = pkgs.python3;
   };
 
-  activeLdLibs = foldlAttrs (
+  activeLdLibs = lib.foldlAttrs (
     acc: lang: pkgs:
-    acc ++ flatten (optionals (attrByPath [ lang "enable" ] false cfg.dev) pkgs)
+    acc ++ lib.flatten (lib.optionals (lib.attrByPath [ lang "enable" ] false cfg.dev) pkgs)
   ) [ ] langLdLibs;
 
   ldRequired = activeLdLibs != [ ];
 in
 {
-  config.programs.nix-ld = mkIf ldRequired {
+  config.programs.nix-ld = lib.mkIf ldRequired {
     enable = true;
     libraries = activeLdLibs;
   };

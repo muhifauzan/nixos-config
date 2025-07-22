@@ -1,48 +1,40 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    filter
-    length
-    literalExpression
-    mkOption
-    optionals
-    types
-    ;
-
+  inherit (lib) types;
   cfg = config.modules;
 in
 {
-  options.modules.monitors = mkOption {
+  options.modules.monitors = lib.mkOption {
     type = types.listOf (
       types.submodule {
         options = {
-          name = mkOption {
+          name = lib.mkOption {
             type = types.str;
             example = "eDP-1";
             description = ''Monitor identifier (e.g., `"eDP-1"`, `"DP-1"`, `"HDMI-A-1"`)'';
           };
 
-          width = mkOption {
+          width = lib.mkOption {
             type = types.ints.positive;
             example = 1920;
             description = "Monitor width in pixels";
           };
 
-          height = mkOption {
+          height = lib.mkOption {
             type = types.ints.positive;
             example = 1080;
             description = "Monitor height in pixels";
           };
 
-          refreshRate = mkOption {
+          refreshRate = lib.mkOption {
             type = types.ints.positive;
             default = 60;
             example = 144;
             description = "Monitor refresh rate in Hz";
           };
 
-          position = mkOption {
+          position = lib.mkOption {
             type = types.str;
             default = "auto";
             example = "1920x0";
@@ -61,20 +53,20 @@ in
             '';
           };
 
-          scale = mkOption {
+          scale = lib.mkOption {
             type = types.numbers.positive;
             default = 1;
             example = 2;
             description = "Display scaling factor (e.g., `1`, `1.5`, `2`)";
           };
 
-          primary = mkOption {
+          primary = lib.mkOption {
             type = types.bool;
             default = false;
             description = "Whether this monitor is the primary display";
           };
 
-          disabled = mkOption {
+          disabled = lib.mkOption {
             type = types.bool;
             default = false;
             description = "Whether this monitor is disabled";
@@ -85,7 +77,7 @@ in
 
     default = [ ];
 
-    example = literalExpression ''
+    example = lib.literalExpression ''
       [
         {
           name = "eDP-1";
@@ -104,9 +96,9 @@ in
     '';
   };
 
-  config.assertions = optionals ((length cfg.monitors) != 0) [
+  config.assertions = lib.optionals ((lib.length cfg.monitors) != 0) [
     {
-      assertion = (length (filter (m: m.primary) cfg.monitors)) == 1;
+      assertion = (lib.length (lib.filter (m: m.primary) cfg.monitors)) == 1;
       message = ''
         Exactly one monitor must be set to primary when monitors are configured.
 
@@ -115,7 +107,7 @@ in
     }
 
     {
-      assertion = (length (filter (m: !m.disabled) cfg.monitors)) >= 1;
+      assertion = (lib.length (lib.filter (m: !m.disabled) cfg.monitors)) >= 1;
       message = ''
         At least one monitor must be enabled when monitors are configured.
 
@@ -125,10 +117,10 @@ in
 
     (
       let
-        invalidScales = (filter (m: m.scale <= 0 || m.scale > 10) cfg.monitors);
+        invalidScales = (lib.filter (m: m.scale <= 0 || m.scale > 10) cfg.monitors);
       in
       {
-        assertion = (length invalidScales) == 0;
+        assertion = (lib.length invalidScales) == 0;
         message = ''
           Monitor scale values must be between 0.1 and 10.
 
@@ -139,10 +131,10 @@ in
 
     (
       let
-        invalidResolutions = filter (m: m.width < 320 || m.height < 240) cfg.monitors;
+        invalidResolutions = lib.filter (m: m.width < 320 || m.height < 240) cfg.monitors;
       in
       {
-        assertion = (length invalidResolutions) == 0;
+        assertion = (lib.length invalidResolutions) == 0;
         message = ''
           Monitor resolution must be at least 320x240 pixels.
 
@@ -155,10 +147,10 @@ in
 
     (
       let
-        invalidRefreshRates = filter (m: m.refreshRate < 30 || m.refreshRate > 500) cfg.monitors;
+        invalidRefreshRates = lib.filter (m: m.refreshRate < 30 || m.refreshRate > 500) cfg.monitors;
       in
       {
-        assertion = (length invalidRefreshRates) == 0;
+        assertion = (lib.length invalidRefreshRates) == 0;
         message = ''
           Monitor refresh rate must be between 30Hz and 500Hz.
 

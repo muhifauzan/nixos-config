@@ -1,7 +1,6 @@
 { config, lib, ... }:
 
 let
-  inherit (lib) mkDefault mkEnableOption;
   cfg = config.modules;
 in
 {
@@ -11,46 +10,46 @@ in
 
   options = {
     modules = {
-      isAmdCpu = mkEnableOption "AMD CPU settings";
-      isAmdGpu = mkEnableOption "AMD GPU settings";
+      isAmdCpu = lib.mkEnableOption "AMD CPU settings";
+      isAmdGpu = lib.mkEnableOption "AMD GPU settings";
 
-      xdg.enable = mkEnableOption "XDG management";
+      xdg.enable = lib.mkEnableOption "XDG management";
 
-      essential-packages.enable = mkEnableOption "essential packages";
-      system-packages.enable = mkEnableOption "system utility packages";
-      network-packages.enable = mkEnableOption "network utility packages";
-      archive-packages.enable = mkEnableOption "archive utility packages";
-      extra-packages.enable = mkEnableOption "extra packages";
+      essential-packages.enable = lib.mkEnableOption "essential packages";
+      system-packages.enable = lib.mkEnableOption "system utility packages";
+      network-packages.enable = lib.mkEnableOption "network utility packages";
+      archive-packages.enable = lib.mkEnableOption "archive utility packages";
+      extra-packages.enable = lib.mkEnableOption "extra packages";
 
-      hyprland.enable = mkEnableOption "Hyprland WM";
+      hyprland.enable = lib.mkEnableOption "Hyprland WM";
 
       dev = {
-        nix.enable = mkEnableOption "Nix development";
-        elixir.enable = mkEnableOption "Elixir development";
-        elixir.phoenix.enable = mkEnableOption "Phoenix development";
-        node.enable = mkEnableOption "Node development";
-        python.enable = mkEnableOption "Python development";
+        nix.enable = lib.mkEnableOption "Nix development";
+        elixir.enable = lib.mkEnableOption "Elixir development";
+        elixir.phoenix.enable = lib.mkEnableOption "Phoenix development";
+        node.enable = lib.mkEnableOption "Node development";
+        python.enable = lib.mkEnableOption "Python development";
       };
 
-      ai.enable = mkEnableOption "AI tooling";
+      ai.enable = lib.mkEnableOption "AI tooling";
 
-      spotify.enable = mkEnableOption "Spotify";
+      spotify.enable = lib.mkEnableOption "Spotify";
     };
   };
 
   config = {
     modules = {
-      xdg.enable = mkDefault true;
+      xdg.enable = lib.mkDefault true;
 
-      essential-packages.enable = mkDefault true;
-      network-packages.enable = mkDefault cfg.extra-packages.enable;
-      archive-packages.enable = mkDefault cfg.extra-packages.enable;
+      essential-packages.enable = lib.mkDefault true;
+      network-packages.enable = lib.mkDefault cfg.extra-packages.enable;
+      archive-packages.enable = lib.mkDefault cfg.extra-packages.enable;
 
-      system-packages.enable = mkDefault (cfg.essential-packages.enable || cfg.extra-packages.enable);
+      system-packages.enable = lib.mkDefault (cfg.essential-packages.enable || cfg.extra-packages.enable);
 
       dev = {
-        nix.enable = mkDefault true;
-        elixir.enable = mkDefault cfg.dev.elixir.phoenix.enable;
+        nix.enable = lib.mkDefault true;
+        elixir.enable = lib.mkDefault cfg.dev.elixir.phoenix.enable;
       };
     };
   };

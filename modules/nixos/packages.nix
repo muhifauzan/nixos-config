@@ -7,14 +7,12 @@
 }:
 
 let
-  inherit (lib) mkIf mkMerge;
   inherit (machine) user;
-
   cfg = config.modules;
 in
 {
-  config = mkMerge [
-    (mkIf cfg.system-packages.enable {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.system-packages.enable {
       environment = {
         systemPackages = with pkgs; [
           dmidecode
@@ -38,7 +36,7 @@ in
       };
     })
 
-    (mkIf cfg.network-packages.enable {
+    (lib.mkIf cfg.network-packages.enable {
       users.users.${user.username}.packages = with pkgs; [
         curl
         dig
@@ -48,7 +46,7 @@ in
       ];
     })
 
-    (mkIf cfg.archive-packages.enable {
+    (lib.mkIf cfg.archive-packages.enable {
       users.users.${user.username}.packages = with pkgs; [
         p7zip
         unzip
@@ -56,7 +54,7 @@ in
       ];
     })
 
-    (mkIf cfg.extra-packages.enable {
+    (lib.mkIf cfg.extra-packages.enable {
       users.users.${user.username}.packages = with pkgs; [
         jq
         tree
@@ -64,7 +62,7 @@ in
       ];
     })
 
-    (mkIf cfg.hyprland.enable {
+    (lib.mkIf cfg.hyprland.enable {
       environment.systemPackages = with pkgs; [
         brightnessctl
         playerctl
@@ -72,7 +70,7 @@ in
       ];
     })
 
-    (mkIf cfg.spotify.enable {
+    (lib.mkIf cfg.spotify.enable {
       users.users.${user.username}.packages = [ pkgs.spotify ];
 
       networking.firewall = {
