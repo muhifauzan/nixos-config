@@ -1,5 +1,8 @@
 { ... }:
 
+# TODO: Might need to move some of it to machine specific settings
+# TODO: Move security settings to security.nix
+# TODO: Maybe move energy/power management settings to hardware/cpu.nix
 {
   security = {
     rtkit.enable = true;
@@ -10,26 +13,25 @@
     # Time synchronization
     timesyncd.enable = true;
 
-    # Firmware updates for security and performance
+    # Allow session software to update firmware
     fwupd.enable = true;
 
-    # AMD Energy Performance Preference - optimal for Zen 3
+    # AMD Energy Performance Preference (EPP) manager
     auto-epp = {
       enable = true;
 
       settings = {
         Settings = {
-          # Balanced approach: performance when needed, efficiency on battery
-          epp_state_for_AC = "performance"; # Full power when plugged in
-          epp_state_for_BAT = "balance_power"; # Balanced battery life
+          epp_state_for_AC = "balance_performance";
+          epp_state_for_BAT = "balance_power";
         };
       };
     };
   };
 
-  # Power management optimizations
   powerManagement = {
     enable = true;
+    cpuFreqGovernor = "schedutil";
     powertop.enable = true;
   };
 }

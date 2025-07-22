@@ -11,6 +11,9 @@ in
 
   options = {
     modules = {
+      isAmdCpu = mkEnableOption "AMD CPU settings";
+      isAmdGpu = mkEnableOption "AMD GPU settings";
+
       xdg.enable = mkEnableOption "XDG management";
 
       essential-packages.enable = mkEnableOption "essential packages";

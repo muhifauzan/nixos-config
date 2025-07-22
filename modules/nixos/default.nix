@@ -3,13 +3,11 @@
 {
   imports = [
     ./..
+    ./hardware
     ./nix.nix
     ./security.nix
     ./secret.nix
-    ./hardware.nix
     ./system.nix
-    ./video.nix
-    ./audio.nix
     ./shell.nix
     ./container.nix
     ./etc-hosts.nix
