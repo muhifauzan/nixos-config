@@ -5,17 +5,12 @@
 # TODO: Maybe move energy/power management settings to hardware/cpu.nix
 # TODO: Explore TLP for charging limit
 {
-  security = {
-    rtkit.enable = true;
-    polkit.enable = true;
-  };
-
   services = {
-    # Time synchronization
-    timesyncd.enable = true;
-
     # Allow session software to update firmware
     fwupd.enable = true;
+
+    # Time synchronization
+    timesyncd.enable = true;
 
     # AMD Energy Performance Preference (EPP) manager
     auto-epp = {
