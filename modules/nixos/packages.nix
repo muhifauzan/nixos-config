@@ -24,7 +24,7 @@ in
           usbutils
         ];
 
-        variables = {
+        sessionVariables = {
           LESS = "-iMRSW";
           PAGER = "less";
         };
