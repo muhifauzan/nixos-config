@@ -129,8 +129,10 @@ in
     amd.enable = true;
     battery.enable = true;
 
-    essential-packages.enable = true;
-    extra-packages.enable = true;
+    packages = {
+      admin.enable = true;
+      extras.enable = true;
+    };
 
     hyprland.enable = true;
 

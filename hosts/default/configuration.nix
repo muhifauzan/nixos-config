@@ -136,8 +136,10 @@ in
     #   }
     # ];
 
-    essential-packages.enable = true;
-    extra-packages.enable = true;
+    packages = {
+      admin.enable = true;
+      extras.enable = true;
+    };
 
     hyprland.enable = true;
 

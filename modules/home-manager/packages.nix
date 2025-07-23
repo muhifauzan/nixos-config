@@ -11,6 +11,7 @@ in
 {
   config = lib.mkMerge [
     {
+      # TODO: Tidy up and categorise
       # User-specific packages for development and workflow
       home.packages = with pkgs; [
         # System monitoring (modern alternatives)
@@ -73,7 +74,7 @@ in
       };
     }
 
-    (lib.mkIf cfg.extra-packages.enable {
+    (lib.mkIf cfg.packages.cli.enable {
       home.packages = with pkgs; [
         fastfetch
       ];

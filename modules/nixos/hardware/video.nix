@@ -30,7 +30,7 @@ in
 
   environment = {
     # VA-API utilities, vainfo, vaapi-fits
-    systemPackages = lib.optionals cfg.extra-packages.enable [ pkgs.libva-utils ];
+    systemPackages = lib.optionals cfg.packages.admin.enable [ pkgs.libva-utils ];
 
     sessionVariables = lib.mkMerge [
       {

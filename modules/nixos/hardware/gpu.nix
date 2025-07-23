@@ -28,10 +28,10 @@ in
 
     environment = {
       # AMD GPU utilities, amdgpu_top
-      systemPackages = lib.optionals cfg.extra-packages.enable [ pkgs.amdgpu_top ];
+      systemPackages = lib.optionals cfg.packages.admin.enable [ pkgs.amdgpu_top ];
 
       # Force use Mesa RADV if there's a performance issues (e.g. <50% less FPS in games)
-      sessionVariables.AMD_VULKAN_ICD = "RADV";
+      # sessionVariables.AMD_VULKAN_ICD = "RADV";
     };
   };
 }

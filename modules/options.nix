@@ -17,11 +17,14 @@ in
 
       xdg.enable = lib.mkEnableOption "XDG management";
 
-      essential-packages.enable = lib.mkEnableOption "essential packages";
-      system-packages.enable = lib.mkEnableOption "system utility packages";
-      network-packages.enable = lib.mkEnableOption "network utility packages";
-      archive-packages.enable = lib.mkEnableOption "archive utility packages";
-      extra-packages.enable = lib.mkEnableOption "extra packages";
+      packages = {
+        admin.enable = lib.mkEnableOption "system administration and hardware diagnostic tools";
+        extras.enable = lib.mkEnableOption "optional package collections";
+
+        network.enable = lib.mkEnableOption "network utilities";
+        archive.enable = lib.mkEnableOption "archive utilities";
+        cli.enable = lib.mkEnableOption "CLI productivity tools";
+      };
 
       hyprland.enable = lib.mkEnableOption "Hyprland WM";
 
@@ -46,11 +49,12 @@ in
 
       xdg.enable = lib.mkDefault true;
 
-      essential-packages.enable = lib.mkDefault true;
-      network-packages.enable = lib.mkDefault cfg.extra-packages.enable;
-      archive-packages.enable = lib.mkDefault cfg.extra-packages.enable;
-
-      system-packages.enable = lib.mkDefault (cfg.essential-packages.enable || cfg.extra-packages.enable);
+      packages = {
+        admin.enable = lib.mkDefault true;
+        network.enable = lib.mkDefault cfg.packages.extras.enable;
+        archive.enable = lib.mkDefault cfg.packages.extras.enable;
+        cli.enable = lib.mkDefault cfg.packages.extras.enable;
+      };
 
       dev = {
         nix.enable = lib.mkDefault true;

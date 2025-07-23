@@ -16,7 +16,7 @@ in
 
   environment.systemPackages =
     with pkgs;
-    lib.optionals cfg.extra-packages.enable [
+    lib.optionals cfg.packages.admin.enable [
       # Mesa utilities, glxinfo, glxgears, es2_info, es2gears
       mesa-demos
 

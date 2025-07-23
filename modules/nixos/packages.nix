@@ -12,7 +12,7 @@ let
 in
 {
   config = lib.mkMerge [
-    (lib.mkIf cfg.system-packages.enable {
+    (lib.mkIf cfg.packages.admin.enable {
       environment = {
         systemPackages = with pkgs; [
           dmidecode
@@ -36,7 +36,7 @@ in
       };
     })
 
-    (lib.mkIf cfg.network-packages.enable {
+    (lib.mkIf cfg.packages.network.enable {
       users.users.${user.username}.packages = with pkgs; [
         curl
         dig
@@ -46,7 +46,7 @@ in
       ];
     })
 
-    (lib.mkIf cfg.archive-packages.enable {
+    (lib.mkIf cfg.packages.archive.enable {
       users.users.${user.username}.packages = with pkgs; [
         p7zip
         unzip
@@ -54,7 +54,7 @@ in
       ];
     })
 
-    (lib.mkIf cfg.extra-packages.enable {
+    (lib.mkIf cfg.packages.cli.enable {
       users.users.${user.username}.packages = with pkgs; [
         jq
         tree
