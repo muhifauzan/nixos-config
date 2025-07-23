@@ -96,9 +96,6 @@ in
   system.stateVersion = "25.05"; # Did you read the comment?
 
   modules = {
-    isAmdCpu = true;
-    isAmdGpu = true;
-
     monitors = [
       {
         name = "eDP-1";
@@ -129,16 +126,8 @@ in
       }
     ];
 
-    # hyprland.workspaces = [
-    #   {
-    #     name = "main";
-    #     rules = "";
-    #   }
-    #   {
-    #     name = "workspace";
-    #     rules = "";
-    #   }
-    # ];
+    amd.enable = true;
+    battery.enable = true;
 
     essential-packages.enable = true;
     extra-packages.enable = true;

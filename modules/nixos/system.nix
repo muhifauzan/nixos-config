@@ -3,6 +3,7 @@
 # TODO: Might need to move some of it to machine specific settings
 # TODO: Move security settings to security.nix
 # TODO: Maybe move energy/power management settings to hardware/cpu.nix
+# TODO: Explore TLP for charging limit
 {
   security = {
     rtkit.enable = true;

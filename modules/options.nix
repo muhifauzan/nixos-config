@@ -10,8 +10,10 @@ in
 
   options = {
     modules = {
-      isAmdCpu = lib.mkEnableOption "AMD CPU settings";
-      isAmdGpu = lib.mkEnableOption "AMD GPU settings";
+      amd.enable = lib.mkEnableOption "AMD CPU and GPU settings";
+      cpu.amd.enable = lib.mkEnableOption "AMD CPU settings";
+      gpu.amd.enable = lib.mkEnableOption "AMD GPU settings";
+      battery.enable = lib.mkEnableOption "battery settings";
 
       xdg.enable = lib.mkEnableOption "XDG management";
 
@@ -39,6 +41,9 @@ in
 
   config = {
     modules = {
+      cpu.amd.enable = lib.mkDefault cfg.amd.enable;
+      gpu.amd.enable = lib.mkDefault cfg.amd.enable;
+
       xdg.enable = lib.mkDefault true;
 
       essential-packages.enable = lib.mkDefault true;

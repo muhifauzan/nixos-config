@@ -9,7 +9,7 @@ let
   cfg = config.modules;
 in
 {
-  config = lib.mkIf cfg.isAmdGpu {
+  config = lib.mkIf cfg.gpu.amd.enable {
     hardware.amdgpu = {
       # Load AMD kernel module in stage 1
       # Can fix lower resolution in boot screen during initramfs
@@ -26,7 +26,12 @@ in
       };
     };
 
-    # AMD GPU utilities, amdgpu_top
-    environment.systemPackages = lib.optionals cfg.extra-packages.enable [ pkgs.amdgpu_top ];
+    environment = {
+      # AMD GPU utilities, amdgpu_top
+      systemPackages = lib.optionals cfg.extra-packages.enable [ pkgs.amdgpu_top ];
+
+      # Force use Mesa RADV if there's a performance issues (e.g. <50% less FPS in games)
+      sessionVariables.AMD_VULKAN_ICD = "RADV";
+    };
   };
 }
