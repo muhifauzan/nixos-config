@@ -42,12 +42,87 @@
 
     quadlet-nix.url = "github:SEIAROTg/quadlet-nix";
 
+    hyprutils = {
+      url = "github:hyprwm/hyprutils";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
+    };
+
+    hyprlang = {
+      url = "github:hyprwm/hyprlang";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+        hyprutils.follows = "hyprutils";
+      };
+    };
+
+    hyprland-protocols = {
+      url = "github:hyprwm/hyprland-protocols";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
+    };
+
+    hyprwayland-scanner = {
+      url = "github:hyprwm/hyprwayland-scanner";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
+    };
+
+    hyprgraphics = {
+      url = "github:hyprwm/hyprgraphics";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+      inputs.hyprutils.follows = "hyprutils";
+    };
+
     hyprland = {
       url = "github:hyprwm/Hyprland/v0.49.0";
 
       inputs = {
         nixpkgs.follows = "nixpkgs";
         systems.follows = "systems";
+        hyprutils.follows = "hyprutils";
+        hyprlang.follows = "hyprlang";
+        hyprland-protocols.follows = "hyprland-protocols";
+        hyprwayland-scanner.follows = "hyprwayland-scanner";
+        hyprgraphics.follows = "hyprgraphics";
+      };
+    };
+
+    hypridle = {
+      url = "github:hyprwm/hypridle";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+        hyprutils.follows = "hyprutils";
+        hyprlang.follows = "hyprlang";
+        hyprland-protocols.follows = "hyprland-protocols";
+        hyprwayland-scanner.follows = "hyprwayland-scanner";
+      };
+    };
+
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+        hyprutils.follows = "hyprutils";
+        hyprlang.follows = "hyprlang";
+        hyprwayland-scanner.follows = "hyprwayland-scanner";
+        hyprgraphics.follows = "hyprgraphics";
       };
     };
 

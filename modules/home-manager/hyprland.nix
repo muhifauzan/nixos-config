@@ -7,6 +7,8 @@ in
 {
   imports = [
     ./hyprland-config.nix
+    ./hyprland-hyprlock-config.nix
+    ./hyprland-hypridle-config.nix
     ./hyprland-plugin.nix
   ];
 

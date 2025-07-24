@@ -185,6 +185,7 @@ in
 
       bind = [
         "$hyperMod, Q, exit,"
+        "$mainMod, L, exec, hyprlock"
 
         "$mainMod, W, killactive,"
         "$mainMod, Q, forcekillactive,"
