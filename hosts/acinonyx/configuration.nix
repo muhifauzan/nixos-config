@@ -11,8 +11,11 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
-    ./hardware.nix
+    # Might not be needed
+    ./nixos-hardware-patch.nix
+
     ./storage.nix
+    ./udev.nix
     ../../modules/nixos
   ];
 
