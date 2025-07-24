@@ -3,8 +3,8 @@
 {
   imports = [
     ./..
-    ./hardware
     ./nix.nix
+    ./hardware.nix
     ./security.nix
     ./secret.nix
     ./system.nix

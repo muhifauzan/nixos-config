@@ -5,6 +5,8 @@
 # TODO: Maybe move energy/power management settings to hardware/cpu.nix
 # TODO: Explore TLP for charging limit
 {
+  imports = [ ./system ];
+
   services = {
     # Allow session software to update firmware
     fwupd.enable = true;

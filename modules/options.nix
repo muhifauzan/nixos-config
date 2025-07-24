@@ -4,9 +4,7 @@ let
   cfg = config.modules;
 in
 {
-  imports = [
-    ./options
-  ];
+  imports = [ ./options ];
 
   options = {
     modules = {

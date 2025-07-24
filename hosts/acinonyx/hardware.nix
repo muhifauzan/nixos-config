@@ -11,10 +11,6 @@
     ];
 
     kernelParams = [
-      "mem_sleep_default=deep"
-      "pcie_aspm.policy=powersupersave"
-      "rtc_cmos.use_acpi_alarm=1"
-      "acpi.prefer_microsoft_dsm_guid=1"
       "i915.modeset=0"
     ];
 
