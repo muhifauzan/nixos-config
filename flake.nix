@@ -144,16 +144,20 @@
         flake-utils.follows = "flake-utils";
       };
     };
+
+    stylix = {
+      url = "github:nix-community/stylix";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+        flake-parts.follows = "flake-parts";
+      };
+    };
   };
 
   outputs =
-    {
-      nixpkgs,
-      treefmt-nix,
-      sops-nix,
-      quadlet-nix,
-      ...
-    }@inputs:
+    { nixpkgs, ... }@inputs:
     let
       utils = import ./lib/utils.nix { lib = nixpkgs.lib; };
       system = "x86_64-linux";
@@ -188,19 +192,20 @@
       };
 
       extraModules = [
-        sops-nix.nixosModules.sops
-        quadlet-nix.nixosModules.quadlet
+        inputs.sops-nix.nixosModules.sops
+        inputs.quadlet-nix.nixosModules.quadlet
+        inputs.stylix.nixosModules.stylix
       ];
 
       extraHomeManagerModules = [
-        sops-nix.homeManagerModules.sops
-        quadlet-nix.homeManagerModules.quadlet
+        inputs.sops-nix.homeManagerModules.sops
+        inputs.quadlet-nix.homeManagerModules.quadlet
       ];
     in
     {
       nixosConfigurations = utils.buildConfigurations machines extraModules extraHomeManagerModules;
 
-      formatter.${system} = treefmt-nix.lib.mkWrapper pkgs {
+      formatter.${system} = inputs.treefmt-nix.lib.mkWrapper pkgs {
         projectRootFile = "flake.nix";
         programs.nixfmt.enable = true;
         settings.global.includes = [ "*.nix" ];
