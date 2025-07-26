@@ -15,5 +15,6 @@
     ./nix-ld.nix
     ./nerdfonts.nix
     ./hyprland.nix
+    ./stylix.nix
   ];
 }

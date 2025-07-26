@@ -1,197 +1,189 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[](color_orange)\
-$os\
-$username\
-[](bg:color_yellow fg:color_orange)\
-$directory\
-[](fg:color_yellow bg:color_aqua)\
-$git_branch\
-$git_status\
-[](fg:color_aqua bg:color_blue)\
-$c\
-$cpp\
-$elixir\
-$golang\
-$haskell\
-$kotlin\
-$nodejs\
-$python\
-$rust\
-[](fg:color_blue bg:color_bg3)\
-$nix_shell\
-$docker_context\
-$conda\
-[](fg:color_bg3 bg:color_bg1)\
-$time\
-[ ](fg:color_bg1)\
-$line_break$character"""
+[](fg:orange bg:none)\
+[( ($os )($username)) ](fg:white bg:orange)\
+[](fg:orange bg:yellow)\
+[( $directory )](fg:white bg:yellow)\
+[](fg:yellow bg:aqua)\
+[( ($git_branch )($git_status ))](fg:white bg:aqua)\
+[](fg:aqua bg:blue)\
+[( \
+($c )\
+($cpp )\
+($elixir )\
+($golang )\
+($haskell )\
+($kotlin )\
+($nodejs )\
+($python )\
+($rust )\
+)](fg:white bg:blue)\
+[](fg:blue bg:bright-black)\
+[( \
+($nix_shell )\
+($docker_context )\
+($conda )\
+)](fg:white bg:bright-black)\
+[](fg:bright-black bg:base01)\
+[( $time) ](fg:white bg:base01)\
+[](fg:base01 bg:none)\
+$line_break\
+$character
+"""
 
-palette = 'gruvbox_dark'
+# palette = 'gruvbox_dark'
 
 [palettes.gruvbox_dark]
-color_fg0 = '#fbf1c7'
-color_bg1 = '#3c3836'
-color_bg3 = '#665c54'
-color_blue = '#458588'
-color_aqua = '#689d6a'
-color_green = '#98971a'
-color_orange = '#d65d0e'
-color_purple = '#b16286'
-color_red = '#cc241d'
-color_yellow = '#d79921'
+white = '#fbf1c7'
+base01 = '#3c3836'
+bright-black = '#665c54'
+blue = '#458588'
+aqua = '#689d6a'
+green = '#98971a'
+orange = '#d65d0e'
+magenta = '#b16286'
+red = '#cc241d'
+yellow = '#d79921'
 
 [os]
 disabled = false
-style = "bg:color_orange fg:color_fg0"
+style = "fg:prev_fg"
+format = '[$symbol]($style bg:prev_bg)'
 
 [os.symbols]
 Alpine = ""
-Amazon = ""
-Android = ""
 Arch = ""
-Artix = ""
 CentOS = ""
 Debian = ""
 EndeavourOS = ""
 Fedora = ""
-Gentoo = ""
 Linux = ""
-Macos = ""
-Manjaro = ""
-Mint = "󰣭"
 NixOS = ""
-Pop = ""
-Raspbian = ""
-Redhat = ""
-RedHatEnterprise = ""
-SUSE = ""
-Ubuntu = ""
 Windows = ""
 
 [username]
+disabled = false
 show_always = true
-style_user = "bg:color_orange fg:color_fg0"
-style_root = "bg:color_orange fg:color_fg0"
-format = '[ $user ]($style)'
+style_root = "fg:red"
+style_user = "fg:prev_fg"
+format = '[$user]($style bg:prev_bg)'
 
 [directory]
-style = "fg:color_fg0 bg:color_yellow"
-format = "[ $path ]($style)"
+disabled = false
 truncation_length = 3
 truncation_symbol = "…/"
+style = "fg:prev_fg"
+format = '[$path]($style bg:prev_bg)'
 
 [directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = "󰝚 "
-"Pictures" = " "
-"Developer" = "󰲋 "
+"Documents" = "󰉋"
+"Downloads" = "󰉍"
+"Music" = "󱍙"
+"Pictures" = "󰉏"
+"Projects" = "󰴉"
 
 [git_branch]
+disabled = false
 symbol = ""
-style = "bg:color_aqua"
-format = '[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol $branch(:$remote_branch)]($style bg:prev_bg)'
 
 [git_status]
-style = "bg:color_aqua"
-format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)'
+disabled = false
+style = "fg:prev_fg"
+format = '[($all_status$ahead_behind)]($style bg:prev_bg)'
 
 [c]
+disabled = false
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $version)]($style bg:prev_bg)'
 
 [cpp]
+disabled = false
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $version)]($style bg:prev_bg)'
 
 [elixir]
+disabled = false
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $version)]($style bg:prev_bg)'
 
 [golang]
+disabled = false
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $version)]($style bg:prev_bg)'
 
 [haskell]
+disabled = false
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
-
-[java]
-symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $version)]($style bg:prev_bg)'
 
 [kotlin]
+disabled = false
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $version)]($style bg:prev_bg)'
 
 [nodejs]
+disabled = false
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
-
-[php]
-symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $version)]($style bg:prev_bg)'
 
 [python]
+disabled = false
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $version)]($style bg:prev_bg)'
 
 [rust]
+disabled = false
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $version)]($style bg:prev_bg)'
 
 [nix_shell]
 disabled = false
 heuristic = false
 symbol = ""
-style = "bg:color_bg3"
-pure_msg = '[pure shell](fg:purple bg:color_bg3)'
-impure_msg = '[impure shell](fg:yellow bg:color_bg3)'
-unknown_msg = '[unknown shell](fg:#83a598 bg:color_bg3)'
-format = '[ via $symbol $state( \($name\))(fg:#83a598 bg:color_bg3)]($style)'
+style = "fg:prev_fg"
+pure_msg = '[pure](fg:prev_fg bg:prev_bg)'
+impure_msg = '[impure](fg:yellow bg:prev_bg)'
+unknown_msg = '[unknown](fg:prev_fg bg:prev_bg)'
+format = '[$symbol $state( \($name\))]($style bg:prev_bg)'
 
 [docker_context]
+disabled = false
 symbol = ""
-style = "bg:color_bg3"
-format = '[[ $symbol( $context) ](fg:#83a598 bg:color_bg3)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $context)]($style bg:prev_bg)'
 
 [conda]
+disabled = false
 symbol = ""
-style = "bg:color_bg3"
-format = '[[ $symbol( $environment) ](fg:#83a598 bg:color_bg3)]($style)'
-
-[pixi]
-symbol = ""
-style = "bg:color_bg3"
-format = '[[ $symbol( $version)( $environment) ](fg:color_fg0 bg:color_bg3)]($style)'
+style = "fg:prev_fg"
+format = '[$symbol( $environment)]($style bg:prev_bg)'
 
 [time]
 disabled = false
-time_format = "%H:%M:%S"
-style = "bg:color_bg1"
-format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
+time_format = "%T"
+style = "fg:prev_fg"
+format = '[( $time)]($style bg:prev_bg)'
 
 [line_break]
 disabled = false
 
 [character]
 disabled = false
-success_symbol = '[](bold fg:color_green)'
-error_symbol = '[](bold fg:color_red)'
-vimcmd_symbol = '[](bold fg:color_green)'
-vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
-vimcmd_replace_symbol = '[](bold fg:color_purple)'
-vimcmd_visual_symbol = '[](bold fg:color_yellow)'
+success_symbol = '[](bold fg:green)'
+error_symbol = '[](bold fg:red)'
+vimcmd_symbol = '[](bold fg:green)'
+vimcmd_replace_one_symbol = '[](bold fg:magenta)'
+vimcmd_replace_symbol = '[](bold fg:magenta)'
+vimcmd_visual_symbol = '[](bold fg:yellow)'
