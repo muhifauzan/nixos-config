@@ -5,9 +5,9 @@ format = """
 [( ($os )($username)) ](fg:white bg:orange)\
 [](fg:orange bg:yellow)\
 [( $directory )](fg:white bg:yellow)\
-[](fg:yellow bg:aqua)\
-[( ($git_branch )($git_status ))](fg:white bg:aqua)\
-[](fg:aqua bg:blue)\
+[](fg:yellow bg:cyan)\
+[( ($git_branch )($git_status ))](fg:white bg:cyan)\
+[](fg:cyan bg:blue)\
 [( \
 ($c )\
 ($cpp )\
@@ -31,20 +31,6 @@ format = """
 $line_break\
 $character
 """
-
-# palette = 'gruvbox_dark'
-
-[palettes.gruvbox_dark]
-white = '#fbf1c7'
-base01 = '#3c3836'
-bright-black = '#665c54'
-blue = '#458588'
-aqua = '#689d6a'
-green = '#98971a'
-orange = '#d65d0e'
-magenta = '#b16286'
-red = '#cc241d'
-yellow = '#d79921'
 
 [os]
 disabled = false
