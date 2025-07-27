@@ -2,12 +2,12 @@
 
 format = """
 [](fg:orange bg:none)\
-[( ($os )($username)) ](fg:white bg:orange)\
-[](fg:orange bg:yellow)\
-[( $directory )](fg:white bg:yellow)\
-[](fg:yellow bg:cyan)\
-[( ($git_branch )($git_status ))](fg:white bg:cyan)\
-[](fg:cyan bg:blue)\
+[( ($os )($username)) ](fg:base06 bg:orange)\
+[](fg:prev_bg bg:yellow)\
+[( $directory )](fg:base06 bg:prev_bg)\
+[](fg:prev_bg bg:cyan)\
+[( ($git_branch )($git_status ))](fg:base06 bg:prev_bg)\
+[](fg:prev_bg bg:blue)\
 [( \
 ($c )\
 ($cpp )\
@@ -18,16 +18,16 @@ format = """
 ($nodejs )\
 ($python )\
 ($rust )\
-)](fg:white bg:blue)\
-[](fg:blue bg:bright-black)\
+)](fg:base06 bg:prev_bg)\
+[](fg:prev_bg bg:base02)\
 [( \
 ($nix_shell )\
 ($docker_context )\
 ($conda )\
-)](fg:white bg:bright-black)\
-[](fg:bright-black bg:base01)\
-[( $time) ](fg:white bg:base01)\
-[](fg:base01 bg:none)\
+)](fg:base06 bg:prev_bg)\
+[](fg:prev_bg bg:base01)\
+[( $time) ](fg:base06 bg:prev_bg)\
+[](fg:prev_bg bg:none)\
 $line_break\
 $character
 """
@@ -51,7 +51,7 @@ Windows = ""
 [username]
 disabled = false
 show_always = true
-style_root = "fg:red"
+style_root = "fg:prev_fg"
 style_user = "fg:prev_fg"
 format = '[$user]($style bg:prev_bg)'
 
@@ -140,7 +140,7 @@ heuristic = false
 symbol = ""
 style = "fg:prev_fg"
 pure_msg = '[pure](fg:prev_fg bg:prev_bg)'
-impure_msg = '[impure](fg:yellow bg:prev_bg)'
+impure_msg = '[impure](fg:prev_fg bg:prev_bg)'
 unknown_msg = '[unknown](fg:prev_fg bg:prev_bg)'
 format = '[$symbol $state( \($name\))]($style bg:prev_bg)'
 

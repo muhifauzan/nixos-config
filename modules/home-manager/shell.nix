@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   machine,
@@ -7,6 +8,7 @@
 
 let
   inherit (machine) hostname;
+  colours = config.lib.stylix.colors.withHashtag;
 in
 {
   config = {
@@ -46,7 +48,7 @@ in
           }
         ];
 
-        completionInit = '''';
+        completionInit = "autoload -U compinit && compinit -u";
 
         initContent =
           let
@@ -54,14 +56,19 @@ in
               export HOSTNAME=${hostname}
             '';
 
-            config = lib.mkOrder 1000 ''
-              autoload -U compinit && compinit -u
+            zshZSettings = lib.mkOrder 1000 ''
               zstyle ':completion:*' menu select
+            '';
+
+            zshZvmEnv = lib.mkOrder 1000 ''
+              ZVM_VI_HIGHLIGHT_BACKGROUND=${colours.base03}
+              ZVM_VI_HIGHLIGHT_FOREGROUND=${colours.base05}
             '';
           in
           lib.mkMerge [
             init
-            config
+            zshZSettings
+            zshZvmEnv
           ];
       };
 

@@ -3,58 +3,57 @@
 {
   stylix = {
     enable = true;
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/darktooth.yaml";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark.yaml";
 
-    # override = {
-    #   # Background
-    #   base00 = "#282828";
+    override = {
+      # Background
+      base00 = "#282828";
 
-    #   # Soft background
-    #   base01 = "#3C3836";
+      # Soft background (darkest grey)
+      base01 = "#3c3836";
 
-    #   # Light background
-    #   base02 = "#504945";
+      # Light background (dark grey)
+      base02 = "#504945";
 
-    #   # Dark foreground
-    #   base03 = "#665C54";
+      # Dark foreground (bright background)
+      base03 = "#665c54";
 
-    #   # Muted foreground
-    #   base04 = "#928374";
+      # Muted foreground (light grey)
+      base04 = "#d5c4a1";
 
-    #   # Foreground
-    #   base05 = "#FDF4C1";
+      # Foreground
+      base05 = "#ebdbb2";
 
-    #   # Soft foreground
-    #   base06 = "#EBDBB2";
+      # Soft foreground
+      base06 = "#fbf1c7";
 
-    #   # Light foreground
-    #   base07 = "#D5C4A1";
+      # Light foreground
+      base07 = "#f9f5d7";
 
-    #   # Red
-    #   base08 = "#9D0006";
+      # Red
+      base08 = "#cc241d";
 
-    #   # Orange
-    #   base09 = "#AF3A03";
+      # Orange
+      base09 = "#d65d0e";
 
-    #   # Yellow
-    #   base0A = "#B57614";
+      # Yellow
+      base0A = "#d79921";
 
-    #   # Green
-    #   base0B = "#79740E";
+      # Green
+      base0B = "#98971a";
 
-    #   # Cyan
-    #   base0C = "#00A7AF";
+      # Cyan
+      base0C = "#689d6a";
 
-    #   # Blue
-    #   base0D = "#076678";
+      # Blue
+      base0D = "#458588";
 
-    #   # Magenta
-    #   base0E = "#8F3F71";
+      # Magenta
+      base0E = "#b16286";
 
-    #   # Brown
-    #   base0F = "#427B58";
-    # };
+      # Brown (or dark red/extra/deprecated)
+      base0F = "#9d0006";
+    };
 
     fonts = {
       serif = {
