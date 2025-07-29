@@ -91,6 +91,7 @@
       terminal = 0.9;
     };
 
+    image = ../stylix/images/wallpaper.jpg;
     polarity = "dark";
   };
 }

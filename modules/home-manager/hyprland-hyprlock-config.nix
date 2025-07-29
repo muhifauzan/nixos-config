@@ -78,7 +78,7 @@ in
 
       background = {
         monitor = "";
-        path = "screenshot";
+        # path = "screenshot";
         blur_passes = 3;
       };
 

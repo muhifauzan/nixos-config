@@ -15,6 +15,7 @@ in
   config = {
     home.packages = with pkgs; [
       kdePackages.dolphin
+      kdePackages.gwenview
       kdePackages.kwallet
       rofi-wayland
     ];
