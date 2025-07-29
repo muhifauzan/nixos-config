@@ -23,8 +23,9 @@ in
           }
 
           {
-            name = zsh-syntax-highlighting.pname;
-            src = zsh-syntax-highlighting.src;
+            name = zsh-fast-syntax-highlighting.pname;
+            src = zsh-fast-syntax-highlighting.src;
+            file = "fast-syntax-highlighting.plugin.zsh";
           }
 
           {
