@@ -1,5 +1,6 @@
 {
   osConfig,
+  config,
   lib,
   libs,
   ...
@@ -26,9 +27,18 @@ in
       monitor = utils.orIfEmpty [ ", preferred, auto, auto" ] monitors;
       workspace = utils.orIfEmpty [ ] workspaces;
 
-      windowrule = [
-        "suppressevent maximize, class:.*"
-        "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+      windowrule = lib.mkMerge [
+        [
+          "suppressevent maximize, class:.*"
+          "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+        ]
+
+        # Clipboard manager
+        (lib.mkIf config.services.clipse.enable [
+          "float, class:(clipse)"
+          "size 622 652, class:(clipse)"
+          "stayfocused, class:(clipse)"
+        ])
       ];
 
       "$menu" = "rofi -show drun";
@@ -122,7 +132,7 @@ in
         mfact = 0.5;
         new_status = "slave";
         orientation = "center";
-        slave_count_for_center_master = 2;
+        slave_count_for_center_master = 3;
         center_master_fallback = "left";
       };
 
@@ -183,114 +193,109 @@ in
       "$shiftAltMod" = "$altMod SHIFT";
       "$hyperMod" = "$mod CTRL ALT SHIFT";
 
-      bind = [
-        "$hyperMod, Q, exit,"
-        "$mainMod, L, exec, hyprlock"
+      bind = lib.mkMerge [
+        [
+          "$hyperMod, Q, exit,"
+          "$mainMod, L, exec, hyprlock"
 
-        "$mainMod, W, killactive,"
-        "$mainMod, Q, forcekillactive,"
+          "$mainMod, W, killactive,"
+          "$mainMod, Q, forcekillactive,"
 
-        "$mainMod, A, exec, $menu"
-        "$mainMod, E, exec, $fileManager"
-        "$mainMod, T, exec, $terminal"
-        "$mainMod, D, exec, $editor"
-        "$mainMod, I, exec, $ai"
-        "$mainMod, B, exec, $webBrowser"
-        "$mainMod, U, exec, $musicPlayer"
+          "$mainMod, A, exec, $menu"
+          "$mainMod, E, exec, $fileManager"
+          "$mainMod, T, exec, $terminal"
+          "$mainMod, D, exec, $editor"
+          "$mainMod, I, exec, $ai"
+          "$mainMod, B, exec, $webBrowser"
+          "$mainMod, U, exec, $musicPlayer"
 
-        "$mainMod, RETURN, fullscreen, 1"
-        "$altMod, RETURN, fullscreen, 0"
+          '', Print, exec, grim -g "$(slurp)" - | satty''
 
-        "$mainMod, F, togglefloating, active"
+          "$mainMod, RETURN, fullscreen, 1"
+          "$altMod, RETURN, fullscreen, 0"
 
-        "$mainMod, left, movefocus, l"
-        "$mainMod, down, movefocus, d"
-        "$mainMod, up, movefocus, u"
-        "$mainMod, right, movefocus, r"
+          "$mainMod, F, togglefloating, active"
 
-        #########################
-        # Switch workspace to
+          "$mainMod, left, movefocus, l"
+          "$mainMod, down, movefocus, d"
+          "$mainMod, up, movefocus, u"
+          "$mainMod, right, movefocus, r"
 
-        "$shiftAltMod, 1, workspace, name:main"
-        "$shiftAltMod, 2, workspace, name:workspace"
-        "$shiftAltMod, 3, workspace, name:other"
-        # "$shiftAltMod, 1, workspace, 1"
-        # "$shiftAltMod, 2, workspace, 2"
-        # "$shiftAltMod, 3, workspace, 3"
-        # "$shiftAltMod, 4, workspace, 4"
-        # "$shiftAltMod, 5, workspace, 5"
-        # "$shiftAltMod, 6, workspace, 6"
-        # "$shiftAltMod, 7, workspace, 7"
-        # "$shiftAltMod, 8, workspace, 8"
-        # "$shiftAltMod, 9, workspace, 9"
-        # "$shiftAltMod, 0, workspace, 10"
+          #########################
+          # Switch workspace to
 
-        # Switch workspace to end
-        #########################
+          "$shiftAltMod, 1, workspace, name:main"
+          "$shiftAltMod, 2, workspace, name:workspace"
+          "$shiftAltMod, 3, workspace, name:other"
+          # "$shiftAltMod, 1, workspace, 1"
+          # "$shiftAltMod, 2, workspace, 2"
+          # "$shiftAltMod, 3, workspace, 3"
 
-        ####################
-        # Move window to
+          # Switch workspace to end
+          #########################
 
-        "$shiftCtrlMod, 1, movetoworkspace, name:main"
-        "$shiftCtrlMod, 2, movetoworkspace, name:workspace"
-        "$shiftCtrlMod, 3, movetoworkspace, name:other"
-        # "$shiftCtrlMod, 1, movetoworkspace, 1"
-        # "$shiftCtrlMod, 2, movetoworkspace, 2"
-        # "$shiftCtrlMod, 3, movetoworkspace, 3"
-        # "$shiftCtrlMod, 4, movetoworkspace, 4"
-        # "$shiftCtrlMod, 5, movetoworkspace, 5"
-        # "$shiftCtrlMod, 6, movetoworkspace, 6"
-        # "$shiftCtrlMod, 7, movetoworkspace, 7"
-        # "$shiftCtrlMod, 8, movetoworkspace, 8"
-        # "$shiftCtrlMod, 9, movetoworkspace, 9"
-        # "$shiftCtrlMod, 0, movetoworkspace, 10"
+          ####################
+          # Move window to
 
-        # Move window to end
-        ####################
+          "$shiftCtrlMod, 1, movetoworkspace, name:main"
+          "$shiftCtrlMod, 2, movetoworkspace, name:workspace"
+          "$shiftCtrlMod, 3, movetoworkspace, name:other"
+          # "$shiftCtrlMod, 1, movetoworkspace, 1"
+          # "$shiftCtrlMod, 2, movetoworkspace, 2"
+          # "$shiftCtrlMod, 3, movetoworkspace, 3"
 
-        ########################
-        # Special workspace
+          # Move window to end
+          ####################
 
-        "$mainMod, S, togglespecialworkspace, terminal"
-        "$shiftCtrlMod, S, movetoworkspace, special:terminal"
+          ########################
+          # Special workspace
 
-        # Special workspaces end
-        ########################
+          "$mainMod, S, togglespecialworkspace, terminal"
+          "$shiftCtrlMod, S, movetoworkspace, special:terminal"
 
-        # Scroll through existing workspaces with mainMod + scroll
-        # "$mainMod, mouse_down, workspace, e+1"
-        # "$mainMod, mouse_up, workspace, e-1"
+          # Special workspaces end
+          ########################
 
-        #########################
-        # Master layout binds
+          # Scroll through existing workspaces with mainMod + scroll
+          # "$mainMod, mouse_down, workspace, e+1"
+          # "$mainMod, mouse_up, workspace, e-1"
 
-        "$ctrlMod, RETURN, layoutmsg, focusmaster master"
+          #########################
+          # Master layout binds
 
-        "$shiftMod, RETURN, layoutmsg, swapwithmaster master"
+          "$ctrlMod, RETURN, layoutmsg, focusmaster master"
 
-        "$altMod, H, layoutmsg, orientationleft"
-        "$altMod, J, layoutmsg, orientationcenter"
-        "$altMod, SPACE, layoutmsg, orientationcycle left center"
+          "$shiftMod, RETURN, layoutmsg, swapwithmaster master"
 
-        "$altMod, 1, layoutmsg, mfact exact 0.382" # Inverse golden ratio
-        "$altMod, 2, layoutmsg, mfact exact 0.414" # Silver ratio
-        "$altMod, 3, layoutmsg, mfact exact 0.45" # More usable sides
-        "$altMod, 4, layoutmsg, mfact exact 0.5" # Simple 50/50
-        "$altMod, 5, layoutmsg, mfact exact 0.618" # Golden ratio
+          "$altMod, H, layoutmsg, orientationleft"
+          "$altMod, J, layoutmsg, orientationcenter"
+          "$altMod, SPACE, layoutmsg, orientationcycle left center"
 
-        # Master layout binds end
-        #########################
+          "$altMod, 1, layoutmsg, mfact exact 0.382" # Inverse golden ratio
+          "$altMod, 2, layoutmsg, mfact exact 0.414" # Silver ratio
+          "$altMod, 3, layoutmsg, mfact exact 0.45" # More usable sides
+          "$altMod, 4, layoutmsg, mfact exact 0.5" # Simple 50/50
+          "$altMod, 5, layoutmsg, mfact exact 0.618" # Golden ratio
 
-        ##########################
-        # Dwindle layout binds
+          # Master layout binds end
+          #########################
 
-        "$mainMod, P, pseudo,"
+          ##########################
+          # Dwindle layout binds
 
-        "$altMod, J, layoutmsg, togglesplit"
-        "$altMod, K, layoutmsg, togglesplit"
+          "$mainMod, P, pseudo,"
 
-        # Dwindle layout binds end
-        ##########################
+          "$altMod, J, layoutmsg, togglesplit"
+          "$altMod, K, layoutmsg, togglesplit"
+
+          # Dwindle layout binds end
+          ##########################
+        ]
+
+        # Clipboard manager
+        (lib.mkIf config.services.clipse.enable [
+          "$mainMod, V, exec, $terminal --class clipse --execute clipse"
+        ])
       ];
 
       bindl = [

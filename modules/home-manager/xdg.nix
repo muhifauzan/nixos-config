@@ -17,6 +17,11 @@ in
       stateHome = user.stateHome;
       configHome = user.configHome;
       cacheHome = user.cacheHome;
+
+      userDirs = {
+        enable = true;
+        createDirectories = true;
+      };
     };
   };
 }

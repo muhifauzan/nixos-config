@@ -14,10 +14,19 @@ in
 
   config = {
     home.packages = with pkgs; [
+      kdePackages.qtwayland
       kdePackages.dolphin
       kdePackages.gwenview
       kdePackages.kwallet
       rofi-wayland
+
+      # Clipboard manager
+      wl-clipboard
+
+      # Screenshot
+      grim
+      slurp
+      satty
     ];
 
     programs = {
@@ -64,6 +73,11 @@ in
 
     services = {
       hyprpolkitagent.enable = true;
+
+      hyprpaper.enable = true;
+
+      # Clipboard manager
+      clipse.enable = true;
 
       # NOTE: switch to true if not using hyprpanel
       mako.enable = false;
