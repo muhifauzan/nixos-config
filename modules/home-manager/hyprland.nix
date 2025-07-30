@@ -27,6 +27,10 @@ in
       grim
       slurp
       satty
+
+      # Screen recording
+      wf-recorder
+      wl-screenrec
     ];
 
     programs = {

@@ -10,6 +10,7 @@ let
   inherit (libs) hyprland utils;
 
   hypUtils = hyprland.utils;
+  userDirs = config.xdg.userDirs;
   cfg = osConfig.modules;
 
   extraWorkspace = [
@@ -31,6 +32,10 @@ in
         [
           "suppressevent maximize, class:.*"
           "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+
+          "float, title:(satty)"
+          "size 60% 60%, title:(satty)"
+          "stayfocused, title:(satty)"
         ]
 
         # Clipboard manager
@@ -209,7 +214,10 @@ in
           "$mainMod, B, exec, $webBrowser"
           "$mainMod, U, exec, $musicPlayer"
 
-          '', Print, exec, grim -g "$(slurp)" - | satty''
+          ''
+            , Print, exec, grim -g "$(slurp -doc '##ff0000ff')" -q 100 -t png -\
+            | satty --filename - --output-filename ${userDirs.pictures}/Screenshot/$(date '+%Y%m%d%H%M%S')_screenshot.png
+          ''
 
           "$mainMod, RETURN, fullscreen, 1"
           "$altMod, RETURN, fullscreen, 0"
