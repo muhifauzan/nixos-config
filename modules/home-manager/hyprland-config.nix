@@ -215,7 +215,15 @@ in
           "$mainMod, U, exec, $musicPlayer"
 
           ''
-            , Print, exec, grim -g "$(slurp -doc '##ff0000ff')" -q 100 -t png -\
+            , Print, exec, grim -g "$(slurp -doc '##ff0000ff')" -t png -\
+            | satty --filename - --output-filename ${userDirs.pictures}/Screenshot/$(date '+%Y%m%d%H%M%S')_screenshot.png
+          ''
+          ''
+            ALT, Print, exec, grim -g "$(hyprctl monitors -j | jq -r '.[] | select(.focused) | [.] | if length != 1 then error("expected exactly one focused monitor") else .[0] end | "\(.x),\(.y) \(.width)x\(.height)"')" -t png -\
+            | satty --filename - --output-filename ${userDirs.pictures}/Screenshot/$(date '+%Y%m%d%H%M%S')_screenshot.png
+          ''
+          ''
+            CTRL, Print, exec, grim -g "$(hyprctl activewindow -j | jq -r '. | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')" -t png -\
             | satty --filename - --output-filename ${userDirs.pictures}/Screenshot/$(date '+%Y%m%d%H%M%S')_screenshot.png
           ''
 
